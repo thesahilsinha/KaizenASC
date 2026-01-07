@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "/realestate.html",
-      "dest": "/real-estate",
+      "dest": "/realestate",
       "status": 301
     }
   ]
