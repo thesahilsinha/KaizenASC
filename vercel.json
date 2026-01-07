@@ -1,9 +1,1 @@
-Json
-{
-  "routes":[
-    {
-      "src": "/realestate",
-      "dest": "/realestate.html"
-    }
-  ]
-}
+=
