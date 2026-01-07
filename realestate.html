@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mumbai Real Estate Data Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            color: #0a0f1a;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 100%);
+            color: white;
+            padding: 60px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: #10b981;
+        }
+
+        .hero-text p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 18px 45px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .hero-stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .stat-item {
+            margin-bottom: 30px;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: #10b981;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .section {
+            padding: 120px 5%;
+        }
+
+        .section-dark {
+            background: #f9fafb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .insight-grid:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-grid.reverse {
+            direction: rtl;
+        }
+
+        .insight-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .insight-content h3 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .insight-content p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .data-point {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .data-point strong {
+            color: #10b981;
+            font-size: 20px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .proof-section {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .proof-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-content h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .proof-content p {
+            font-size: 22px;
+            margin-bottom: 50px;
+            opacity: 0.95;
+        }
+
+        .proof-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 60px 0 50px;
+        }
+
+        .proof-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .proof-stat-number {
+            font-size: 52px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .proof-stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            background: white;
+            color: #10b981;
+            padding: 18px 45px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-banner {
+            background: #0a0f1a;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .cta-banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-banner h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-banner p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .urgency-text {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, #059669, #10b981);
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .final-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 25px;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .guarantee-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .guarantee-badge p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .insight-grid.reverse {
+                direction: ltr;
+            }
+
+            .proof-stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 40px;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            .insight-content h3 {
+                font-size: 28px;
+            }
+
+            .proof-content h2 {
+                font-size: 36px;
+            }
+
+            .cta-banner h2 {
+                font-size: 32px;
+            }
+
+            .final-cta h2 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Most Mumbai Developers Are Leaving <span class="highlight">₹8.4 Crores</span> on the Table</h1>
+                <p>In 30 minutes, we'll show you exactly where your portfolio is bleeding money—and the three data-driven moves that could double your ROI in the next 90 days.</p>
+                <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Book Your Free Strategy Session →</a>
+            </div>
+            <div class="hero-stat-box">
+                <div class="stat-item">
+                    <span class="stat-number">₹4.2L Cr</span>
+                    <span class="stat-label">Mumbai real estate market size (2024)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">23%</span>
+                    <span class="stat-label">Average price appreciation in data-optimized areas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">45 Days</span>
+                    <span class="stat-label">Average time to first measurable result</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Competitors Are Using Data. Are You?</h2>
+                <p>While most developers rely on gut feeling, top performers use real-time analytics to dominate Mumbai's market</p>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-content">
+                    <h3>Price Trends Show Clear Winners & Losers</h3>
+                    <p>Our analysis of 6 major Mumbai micro-markets reveals that Bandra West and BKC are outpacing others by 18% year-over-year, while traditional areas are stagnating.</p>
+                    <div class="data-point">
+                        <strong>The Opportunity:</strong> Properties in emerging corridors near metro lines show 31% higher appreciation potential in the next 24 months.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">See Your Portfolio Analysis →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Mumbai Micro-Market Price Growth (YoY %)</div>
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-grid reverse">
+                <div class="insight-content">
+                    <h3>Buyer Demand Is Shifting—Fast</h3>
+                    <p>Our real-time demand tracking across 12,000+ property searches shows that buyer interest has shifted dramatically in Q4 2024. Powai and Thane emerged as surprise leaders.</p>
+                    <div class="data-point">
+                        <strong>The Risk:</strong> Developers still focused on saturated markets are seeing 40% longer holding periods and 15% lower margins.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Discover Where to Focus →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Search Volume Index by Area (Oct-Dec 2024)</div>
+                    <canvas id="demandChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-content">
+                    <h3>Infrastructure = Instant Value</h3>
+                    <p>Properties within 1km of upcoming metro stations have historically shown 42% price jumps within 18 months of announcement. The Mumbai Metro Line 3 corridor is your next goldmine.</p>
+                    <div class="data-point">
+                        <strong>The Action:</strong> We've identified 7 undervalued pockets along the Colaba-Bandra-SEEPZ corridor where smart money is already moving.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Get the Exact Locations →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Price Impact: Distance from Metro (₹/sq.ft premium)</div>
+                    <canvas id="metroChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof-section">
+        <div class="proof-content">
+            <h2>Real Results, Real Numbers</h2>
+            <p>We don't just analyze data—we turn it into profit. Here's what happened when Mumbai developers started making data-driven decisions.</p>
+            
+            <div class="proof-stats">
+                <div class="proof-stat">
+                    <span class="proof-stat-number">237%</span>
+                    <span class="proof-stat-label">Average ROI increase across 12 portfolios</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-number">₹84 Cr</span>
+                    <span class="proof-stat-label">Total value unlocked for clients in 2024</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-number">92%</span>
+                    <span class="proof-stat-label">Client retention rate (they come back)</span>
+                </div>
+            </div>
+
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-secondary">Let's Talk About Your Portfolio →</a>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="cta-banner-content">
+            <div class="urgency-text">⚡ Limited Slots Available This Month</div>
+            <h2>What Happens in Your Free 30-Minute Strategy Session</h2>
+            <p>No fluff. No sales pitch. Just a real conversation about your portfolio, your market, and the three biggest opportunities we see right now.</p>
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Claim Your Strategy Session →</a>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="final-cta-content">
+            <h2>Ready to Stop Guessing?</h2>
+            <p>Every day you wait is another day your competitors are using data to win deals you should be getting. Book your free session now—we'll show you exactly where to focus.</p>
+            
+            <div class="guarantee-badge">
+                <p><strong>Our Guarantee:</strong> If we don't show you at least 3 actionable insights worth implementing in your first call, we'll send you ₹5,000 for wasting your time.</p>
+            </div>
+
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-secondary">Book Your Free Session Now →</a>
+        </div>
+    </section>
+
+    <script>
+        // Growth Chart
+        const growthCtx = document.getElementById('growthChart').getContext('2d');
+        new Chart(growthCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Bandra West', 'BKC', 'Worli', 'Andheri', 'Goregaon', 'Malad'],
+                datasets: [{
+                    label: 'Price Growth %',
+                    data: [23, 21, 18, 12, 9, 7],
+                    backgroundColor: [
+                        '#10b981',
+                        '#10b981',
+                        '#34d399',
+                        '#6ee7b7',
+                        '#a7f3d0',
+                        '#d1fae5'
+                    ],
+                    borderRadius: 6,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Demand Chart
+        const demandCtx = document.getElementById('demandChart').getContext('2d');
+        new Chart(demandCtx, {
+            type: 'line',
+            data: {
+                labels: ['Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Powai',
+                    data: [72, 85, 94],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Thane',
+                    data: [68, 79, 88],
+                    borderColor: '#34d399',
+                    backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'South Mumbai',
+                    data: [85, 82, 78],
+                    borderColor: '#d1d5db',
+                    backgroundColor: 'rgba(209, 213, 219, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Metro Chart
+        const metroCtx = document.getElementById('metroChart').getContext('2d');
+        new Chart(metroCtx, {
+            type: 'line',
+            data: {
+                labels: ['0-500m', '500m-1km', '1-2km', '2-3km', '3km+'],
+                datasets: [{
+                    label: 'Premium (₹/sq.ft)',
+                    data: [8500, 6200, 3800, 1500, 0],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₹' + value.toLocaleString();
+                            }
+                        },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
