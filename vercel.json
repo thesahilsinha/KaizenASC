@@ -1,10 +1,2 @@
-{
-  "routes": [
-    {
-      "src": "/realestate.html",
-      "dest": "/realestate",
-      "status": 301
-    }
-  ]
-}
+
 
