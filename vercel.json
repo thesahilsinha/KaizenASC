@@ -4,10 +4,6 @@
       "src": "/realestate",
       "dest": "/realestate.html"
     }
-    {
-      "src": "/fashion",
-      "dest": "/fashion.html"
-    }
   ]
 }
 
