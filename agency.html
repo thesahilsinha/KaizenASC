@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Revenue Funnel Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            color: #0a0f1a;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(10, 15, 26, 0.93) 0%, rgba(26, 31, 46, 0.93) 100%), 
+                        url('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&q=80') center/cover;
+            color: white;
+            padding: 60px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: #10b981;
+        }
+
+        .hero-text p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 18px 45px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .hero-stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .stat-item {
+            margin-bottom: 30px;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: #10b981;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .visual-section {
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            height: 350px;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 25px;
+            color: white;
+        }
+
+        .image-overlay h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .image-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 120px 5%;
+        }
+
+        .section-dark {
+            background: #f9fafb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .insight-grid:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-grid.reverse {
+            direction: rtl;
+        }
+
+        .insight-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .insight-content h3 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .insight-content p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .data-point {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .data-point strong {
+            color: #10b981;
+            font-size: 20px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0a0f1a;
+        }
+
+        .proof-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95)),
+                        url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80') center/cover;
+            background-attachment: fixed;
+            color: white;
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .proof-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-content h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .proof-content p {
+            font-size: 22px;
+            margin-bottom: 50px;
+            opacity: 0.95;
+        }
+
+        .proof-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 60px 0 50px;
+        }
+
+        .proof-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .proof-stat-number {
+            font-size: 52px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .proof-stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            background: white;
+            color: #10b981;
+            padding: 18px 45px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, rgba(10, 15, 26, 0.92) 0%, rgba(26, 31, 46, 0.92) 100%),
+                        url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80') center/cover;
+            background-attachment: fixed;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .cta-banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-banner h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-banner p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .urgency-text {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.95), rgba(16, 185, 129, 0.95)),
+                        url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80') center/cover;
+            background-attachment: fixed;
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .final-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 25px;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .guarantee-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .guarantee-badge p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .hero-text h1 {
+                font-size: 48px;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .insight-grid.reverse {
+                direction: ltr;
+            }
+
+            .proof-stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section {
+                padding: 80px 5%;
+            }
+
+            .proof-section, .cta-banner, .final-cta {
+                padding: 80px 5%;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-item {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding: 80px 5% 60px;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+            .hero-text p {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .stat-label {
+                font-size: 14px;
+            }
+
+            .hero-stat-box {
+                padding: 30px 20px;
+            }
+
+            .section {
+                padding: 60px 5%;
+            }
+
+            .section-header {
+                margin-bottom: 50px;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            .section-header p {
+                font-size: 18px;
+            }
+
+            .insight-content h3 {
+                font-size: 28px;
+            }
+
+            .insight-content p {
+                font-size: 16px;
+            }
+
+            .data-point {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .data-point strong {
+                font-size: 18px;
+            }
+
+            .chart-container {
+                padding: 20px 15px;
+            }
+
+            .chart-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .proof-section, .cta-banner, .final-cta {
+                padding: 60px 5%;
+            }
+
+            .proof-content h2 {
+                font-size: 36px;
+            }
+
+            .proof-content p {
+                font-size: 18px;
+            }
+
+            .proof-stat {
+                padding: 30px 20px;
+            }
+
+            .proof-stat-number {
+                font-size: 40px;
+            }
+
+            .proof-stat-label {
+                font-size: 14px;
+            }
+
+            .cta-banner h2 {
+                font-size: 28px;
+            }
+
+            .cta-banner p {
+                font-size: 16px;
+            }
+
+            .final-cta h2 {
+                font-size: 32px;
+            }
+
+            .final-cta p {
+                font-size: 18px;
+            }
+
+            .cta-primary, .cta-secondary {
+                padding: 16px 35px;
+                font-size: 16px;
+                display: block;
+                text-align: center;
+            }
+
+            .guarantee-badge {
+                padding: 25px 30px;
+            }
+
+            .guarantee-badge p {
+                font-size: 16px;
+            }
+
+            .image-item {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+            }
+
+            .stat-number {
+                font-size: 32px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .insight-content h3 {
+                font-size: 24px;
+            }
+
+            .proof-content h2 {
+                font-size: 28px;
+            }
+
+            .proof-content p {
+                font-size: 16px;
+            }
+
+            .proof-stat-number {
+                font-size: 36px;
+            }
+
+            .cta-banner h2 {
+                font-size: 24px;
+            }
+
+            .final-cta h2 {
+                font-size: 28px;
+            }
+
+            .final-cta p {
+                font-size: 16px;
+            }
+
+            .cta-primary, .cta-secondary {
+                padding: 14px 30px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Your Agency's Dream Revenue? <span class="highlight">Let's Make It Real.</span></h1>
+                <p>In 30 minutes, we'll dissect your funnel, reveal where leads are leaking, and show you the exact framework to turn ₹3 Lakhs into ₹12 Lakhs—predictably and profitably.</p>
+                <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Book Your Free Funnel Audit →</a>
+            </div>
+            <div class="hero-stat-box">
+                <div class="stat-item">
+                    <span class="stat-number">₹8.4L</span>
+                    <span class="stat-label">Average revenue increase for agencies we work with</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">67%</span>
+                    <span class="stat-label">Average funnel conversion improvement within 60 days</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">38 Days</span>
+                    <span class="stat-label">Average time to first measurable revenue lift</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="visual-section">
+        <div class="image-grid">
+            <div class="image-item">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80" alt="Agency Team">
+                <div class="image-overlay">
+                    <h4>Growing Agencies</h4>
+                    <p>Pan-India scaling strategies</p>
+                </div>
+            </div>
+            <div class="image-item">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80" alt="Agency Growth">
+                <div class="image-overlay">
+                    <h4>Data-Driven Growth</h4>
+                    <p>Funnel optimization that works</p>
+                </div>
+            </div>
+            <div class="image-item">
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80" alt="Agency Success">
+                <div class="image-overlay">
+                    <h4>Predictable Revenue</h4>
+                    <p>From chaos to consistent cash flow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Funnel Is Broken. Let's Fix It.</h2>
+                <p>Most agencies lose 73% of leads in their funnel. We'll show you where and why—then fix it.</p>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-content">
+                    <h3>The Lead Generation Trap</h3>
+                    <p>Indian agencies spend ₹45,000 monthly on ads but convert only 4.2% to paying clients. That's ₹43,000 wasted every single month on leads that vanish into thin air.</p>
+                    <div class="data-point">
+                        <strong>The Reality:</strong> Top-performing agencies convert at 18.7%—that's 4.5x more revenue from the same ad spend. The difference? A data-optimized funnel.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Find Your Funnel Leaks →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Funnel Conversion Rates: Winners vs Average</div>
+                    <canvas id="conversionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-grid reverse">
+                <div class="insight-content">
+                    <h3>Pricing That Kills Deals</h3>
+                    <p>67% of Indian agencies underprice their services by an average of 42%. You're not just leaving money on the table—you're attracting nightmare clients who don't value your work.</p>
+                    <div class="data-point">
+                        <strong>The Fix:</strong> Agencies that implement value-based pricing see an immediate 38% revenue jump without acquiring a single new client. Just better positioning and pricing.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Optimize Your Pricing →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Revenue Impact: Pricing Strategy (₹ Lakhs/Month)</div>
+                    <canvas id="pricingChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-content">
+                    <h3>Client Acquisition Cost Is Killing You</h3>
+                    <p>The average Indian agency spends ₹12,000 to acquire a client worth ₹18,000. That's a 67% CAC ratio—dangerously high. Meanwhile, optimized agencies maintain a 23% CAC ratio.</p>
+                    <div class="data-point">
+                        <strong>The Math:</strong> Reduce CAC from ₹12K to ₹4K per client, and suddenly every client is 3x more profitable. Scale becomes possible. Growth becomes inevitable.
+                    </div>
+                    <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Lower Your CAC Now →</a>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Client Acquisition Cost Comparison (₹)</div>
+                    <canvas id="cacChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof-section">
+        <div class="proof-content">
+            <h2>Real Agencies, Real Revenue Growth</h2>
+            <p>We work with agencies across India—from bootstrapped startups to 50-person teams. The common thread? They stopped guessing and started measuring.</p>
+            
+            <div class="proof-stats">
+                <div class="proof-stat">
+                    <span class="proof-stat-number">₹6.8 Cr</span>
+                    <span class="proof-stat-label">Total revenue generated for agency clients in 2024</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-number">3.4x</span>
+                    <span class="proof-stat-label">Average revenue multiple achieved within 12 months</span>
+                </div>
+                <div class="proof-stat">
+                    <span class="proof-stat-number">94%</span>
+                    <span class="proof-stat-label">Client satisfaction rate (they refer others)</span>
+                </div>
+            </div>
+
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-secondary">Let's Scale Your Agency →</a>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="cta-banner-content">
+            <div class="urgency-text">⚡ Limited to 5 New Agencies This Month</div>
+            <h2>What Happens in Your Free 30-Minute Funnel Audit</h2>
+            <p>We'll map your current funnel, identify the 3 biggest revenue leaks, and give you a custom action plan to fix them. No fluff, no sales pitch—just actionable insights you can implement today.</p>
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-primary">Claim Your Audit Slot →</a>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="final-cta-content">
+            <h2>Turn Your Dream Revenue Into Reality</h2>
+            <p>Every day you wait with a broken funnel is another ₹15,000 you'll never see again. Book your free audit and discover exactly how to scale predictably and profitably.</p>
+            
+            <div class="guarantee-badge">
+                <p><strong>Our Guarantee:</strong> If we don't identify at least ₹8 Lakhs in revenue opportunities in your first session, we'll pay you ₹5,000 for wasting your time.</p>
+            </div>
+
+            <a href="https://calendly.com/kaizenasc/30min?back=1&month=2026-01" target="_blank" class="cta-secondary">Book Your Free Audit →</a>
+        </div>
+    </section>
+
+    <script>
+        // Conversion Chart
+        const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+        new Chart(conversionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Lead to MQL', 'MQL to SQL', 'SQL to Proposal', 'Proposal to Client'],
+                datasets: [{
+                    label: 'Top Performers',
+                    data: [45, 62, 71, 84],
+                    backgroundColor: '#10b981',
+                    borderRadius: 6,
+                    borderWidth: 0
+                },
+                {
+                    label: 'Average Agency',
+                    data: [28, 34, 42, 51],
+                    backgroundColor: '#d1d5db',
+                    borderRadius: 6,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Pricing Chart
+        const pricingCtx = document.getElementById('pricingChart').getContext('2d');
+        new Chart(pricingCtx, {
+            type: 'line',
+            data: {
+                labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+                datasets: [{
+                    label: 'Value-Based Pricing',
+                    data: [65, 78, 92, 108, 125, 142],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Hourly/Project Pricing',
+                    data: [65, 68, 71, 75, 79, 82],
+                    borderColor: '#d1d5db',
+                    backgroundColor: 'rgba(209, 213, 219, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '₹' + value + 'L';
+                            }
+                        },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // CAC Chart
+        const cacCtx = document.getElementById('cacChart').getContext('2d');
+        new Chart(cacCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Optimized Funnel', 'Industry Average', 'Broken Funnel'],
+                datasets: [{
+                    label: 'Cost to Acquire Client',
+                    data: [4000, 8500, 12000],
+                    backgroundColor: ['#10b981', '#34d399', '#f87171'],
+                    borderRadius: 6,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₹' + (value/1000).toFixed(0) + 'K';
+                            }
+                        },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
