@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Growth Diagnostic - Kaizen ASC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            color: #0a0f1a;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(10, 15, 26, 0.93) 0%, rgba(26, 31, 46, 0.93) 100%), 
+                        url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80') center/cover;
+            color: white;
+            padding: 80px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .highlight {
+            color: #10b981;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            opacity: 0.9;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .intro-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px auto 0;
+            max-width: 750px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .form-section {
+            padding: 80px 5%;
+            background: #f9fafb;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 60px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-divider {
+            margin: 60px 0 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .section-divider:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0a0f1a;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #10b981;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 32px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0a0f1a;
+            margin-bottom: 12px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #10b981;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-button:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .submit-button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .closing-text {
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .success-message {
+            display: none;
+            background: #10b981;
+            color: white;
+            padding: 60px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .success-message h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .success-message p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Agency Growth <span class="highlight">Diagnostic</span></h1>
+            <p>This diagnostic helps us understand your agency's current stage, growth goals, and operational bottlenecks.</p>
+            <div class="intro-box">
+                The goal is not to sell services immediately, but to assess whether a structured, data-backed growth system makes sense for your agency.
+            </div>
+        </div>
+    </section>
+
+    <section class="form-section">
+        <div class="form-container">
+            <div id="successMessage" class="success-message">
+                <h2>✓ Submission Received</h2>
+                <p>Thank you. Once reviewed, we'll share observations and discuss whether a collaboration makes sense.</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <form id="diagnosticForm">
+                <!-- SECTION 1: AGENCY BASICS -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">1</span> Agency Basics</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Agency Name *</label>
+                        <input type="text" name="agencyName" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Primary Decision Maker Name *</label>
+                        <input type="text" name="decisionMaker" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Your Role in the Agency *</label>
+                        <select name="role" class="form-select" required>
+                            <option value="">Select your role</option>
+                            <option value="Founder">Founder</option>
+                            <option value="Co-founder">Co-founder</option>
+                            <option value="Partner">Partner</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Sales">Sales</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Agency Website / Portfolio Link</label>
+                        <input type="url" name="website" class="form-input" placeholder="https://">
+                    </div>
+                </div>
+
+                <!-- SECTION 2: CURRENT AGENCY STAGE -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">2</span> Current Agency Stage</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Which stage best describes your agency right now? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="agencyStage" value="Early-stage" id="stage1" required>
+                                <label for="stage1">Early-stage (figuring out positioning & consistency)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="agencyStage" value="Stable" id="stage2">
+                                <label for="stage2">Stable (regular clients, inconsistent growth)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="agencyStage" value="Scaling" id="stage3">
+                                <label for="stage3">Scaling (clear offer, want predictability)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="agencyStage" value="Plateaued" id="stage4">
+                                <label for="stage4">Plateaued (growth has slowed or feels random)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">How long has the agency been operating? *</label>
+                        <select name="operatingTime" class="form-select" required>
+                            <option value="">Select duration</option>
+                            <option value="Less than 6 months">Less than 6 months</option>
+                            <option value="6–12 months">6–12 months</option>
+                            <option value="1–3 years">1–3 years</option>
+                            <option value="3+ years">3+ years</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: REVENUE & TARGETS -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">3</span> Revenue & Targets</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Approximate current monthly revenue range *</label>
+                        <select name="currentRevenue" class="form-select" required>
+                            <option value="">Select range</option>
+                            <option value="Below ₹2L">Below ₹2L</option>
+                            <option value="₹2L–₹5L">₹2L–₹5L</option>
+                            <option value="₹5L–₹10L">₹5L–₹10L</option>
+                            <option value="₹10L–₹25L">₹10L–₹25L</option>
+                            <option value="₹25L+">₹25L+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What is your target monthly revenue in the next 3–6 months? *</label>
+                        <input type="text" name="targetRevenue" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What is your average deal size today? *</label>
+                        <input type="text" name="averageDealSize" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: IDEAL CLIENT & OFFER -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">4</span> Ideal Client & Offer</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Who is your ideal client? *<br><small style="font-weight: 400; color: #666;">(Industry, size, geography, maturity)</small></label>
+                        <textarea name="idealClient" class="form-textarea" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What services do you primarily offer today? *<br><small style="font-weight: 400; color: #666;">(Check all that apply)</small></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="Branding / Design" id="service1">
+                                <label for="service1">Branding / Design</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="Web / Tech" id="service2">
+                                <label for="service2">Web / Tech</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="Performance Marketing" id="service3">
+                                <label for="service3">Performance Marketing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="SEO / Content" id="service4">
+                                <label for="service4">SEO / Content</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="Consulting / Strategy" id="service5">
+                                <label for="service5">Consulting / Strategy</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="services" value="Other" id="service6">
+                                <label for="service6">Other (specify in comments)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Which services are the most profitable for you right now? *</label>
+                        <input type="text" name="profitableServices" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: LEADS & ACQUISITION -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">5</span> Leads & Acquisition</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Where do most of your leads come from currently? *</label>
+                        <select name="leadSource" class="form-select" required>
+                            <option value="">Select primary source</option>
+                            <option value="Referrals">Referrals</option>
+                            <option value="Website / inbound">Website / inbound</option>
+                            <option value="Instagram / social">Instagram / social</option>
+                            <option value="Cold outreach">Cold outreach</option>
+                            <option value="Paid ads">Paid ads</option>
+                            <option value="Partnerships">Partnerships</option>
+                            <option value="Marketplaces">Marketplaces</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Which part of lead generation feels the weakest or most unpredictable? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="weakestPart" value="Getting enough leads" id="weak1" required>
+                                <label for="weak1">Getting enough leads</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="weakestPart" value="Lead quality" id="weak2">
+                                <label for="weak2">Lead quality</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="weakestPart" value="Converting leads to calls" id="weak3">
+                                <label for="weak3">Converting leads to calls</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="weakestPart" value="Closing deals" id="weak4">
+                                <label for="weak4">Closing deals</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="weakestPart" value="Retention / upsells" id="weak5">
+                                <label for="weak5">Retention / upsells</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 6: FUNNEL & PROCESS -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">6</span> Funnel & Process</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Do you currently have a defined funnel (from lead → close → delivery)? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="definedFunnel" value="Yes, documented & tracked" id="funnel1" required>
+                                <label for="funnel1">Yes, documented & tracked</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="definedFunnel" value="Yes, but informal" id="funnel2">
+                                <label for="funnel2">Yes, but informal</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="definedFunnel" value="No, mostly ad-hoc" id="funnel3">
+                                <label for="funnel3">No, mostly ad-hoc</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Where do leads drop off the most? *</label>
+                        <select name="dropOffPoint" class="form-select" required>
+                            <option value="">Select stage</option>
+                            <option value="Awareness">Awareness</option>
+                            <option value="Enquiry">Enquiry</option>
+                            <option value="Call / meeting">Call / meeting</option>
+                            <option value="Proposal">Proposal</option>
+                            <option value="Closing">Closing</option>
+                            <option value="Retention">Retention</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SECTION 7: DATA & CLARITY -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">7</span> Data & Clarity</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">What data do you actively track today? *<br><small style="font-weight: 400; color: #666;">(Check all that apply)</small></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="Lead sources" id="data1">
+                                <label for="data1">Lead sources</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="Conversion rates" id="data2">
+                                <label for="data2">Conversion rates</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="Revenue per channel" id="data3">
+                                <label for="data3">Revenue per channel</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="Client acquisition cost" id="data4">
+                                <label for="data4">Client acquisition cost</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="Retention / LTV" id="data5">
+                                <label for="data5">Retention / LTV</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="trackedData" value="None / very limited" id="data6">
+                                <label for="data6">None / very limited</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What data or clarity do you wish you had but don't today? *</label>
+                        <textarea name="wishedData" class="form-textarea" required></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 8: CORE BOTTLENECK -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">8</span> Core Bottleneck</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">If you had to name one problem holding growth back right now, what would it be? *</label>
+                        <textarea name="coreBottleneck" class="form-textarea" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What has already been tried to fix this? What worked, what didn't? *</label>
+                        <textarea name="attemptedSolutions" class="form-textarea" required></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 9: SUCCESS DEFINITION -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">9</span> Success Definition</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">If this collaboration is successful, what should change in the next 90 days? *<br><small style="font-weight: 400; color: #666;">(Check all that apply)</small></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="Predictable leads" id="success1">
+                                <label for="success1">Predictable leads</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="Higher quality clients" id="success2">
+                                <label for="success2">Higher quality clients</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="Better conversion" id="success3">
+                                <label for="success3">Better conversion</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="Clear growth roadmap" id="success4">
+                                <label for="success4">Clear growth roadmap</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="Stronger systems & processes" id="success5">
+                                <label for="success5">Stronger systems & processes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="successMetrics" value="More time / less chaos" id="success6">
+                                <label for="success6">More time / less chaos</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 10: COLLABORATION STYLE -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">10</span> Collaboration Style</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">What are you primarily looking for? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="collaborationType" value="One-time growth system & roadmap" id="collab1" required>
+                                <label for="collab1">One-time growth system & roadmap</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="collaborationType" value="Ongoing advisory & iteration" id="collab2">
+                                <label for="collab2">Ongoing advisory & iteration</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="collaborationType" value="Funnel & data optimisation" id="collab3">
+                                <label for="collab3">Funnel & data optimisation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="collaborationType" value="All of the above" id="collab4">
+                                <label for="collab4">All of the above</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">How involved do you want to be in understanding the data & decisions? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="involvementLevel" value="Just outcomes" id="involve1" required>
+                                <label for="involve1">Just outcomes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="involvementLevel" value="Learn alongside" id="involve2">
+                                <label for="involve2">Learn alongside</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="involvementLevel" value="Fully internalise the system" id="involve3">
+                                <label for="involve3">Fully internalise the system</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 11: BUDGET & READINESS -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">11</span> Budget & Readiness</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">What budget range are you comfortable starting with for the right approach? *</label>
+                        <div class="radio-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="budgetRange" value="₹15k–₹25k (diagnostic / pilot)" id="budget1" required>
+                                <label for="budget1">₹15k–₹25k (diagnostic / pilot)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="budgetRange" value="₹25k–₹50k (system design & iteration)" id="budget2">
+                                <label for="budget2">₹25k–₹50k (system design & iteration)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" name="budgetRange" value="₹50k+ (deep collaboration / advisory)" id="budget3">
+                                <label for="budget3">₹50k+ (deep collaboration / advisory)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Timeline to start (if it makes sense): *</label>
+                        <select name="timeline" class="form-select" required>
+                            <option value="">Select timeline</option>
+                            <option value="Immediately">Immediately</option>
+                            <option value="Within 2 weeks">Within 2 weeks</option>
+                            <option value="Within a month">Within a month</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SECTION 12: FINAL CONTEXT -->
+                <div class="section-divider">
+                    <h2 class="section-title"><span class="section-number">12</span> Final Context</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Is there anything important about your agency, goals, or concerns we should know?</label>
+                        <textarea name="finalContext" class="form-textarea"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button" id="submitBtn">Submit Diagnostic</button>
+
+                <p class="closing-text">Thank you. Once reviewed, we'll share observations and discuss whether a collaboration makes sense.</p>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('diagnosticForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const form = e.target;
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            errorMessage.style.display = 'none';
+            
+            // Gather form data
+            const formData = new FormData(form);
+            
+            // Process checkbox groups
+            const services = [];
+            const trackedData = [];
+            const successMetrics = [];
+            
+            formData.getAll('services').forEach(val => services.push(val));
+            formData.getAll('trackedData').forEach(val => trackedData.push(val));
+            formData.getAll('successMetrics').forEach(val => successMetrics.push(val));
+            
+            // Build email body
+            let emailBody = `
+=== KAIZEN ASC - AGENCY GROWTH DIAGNOSTIC ===
+
+SECTION 1: AGENCY BASICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Agency Name: ${formData.get('agencyName')}
+Decision Maker: ${formData.get('decisionMaker')}
+Role: ${formData.get('role')}
+Website: ${formData.get('website') || 'Not provided'}
+
+SECTION 2: CURRENT AGENCY STAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Agency Stage: ${formData.get('agencyStage')}
+Operating Time: ${formData.get('operatingTime')}
+
+SECTION 3: REVENUE & TARGETS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Current Monthly Revenue: ${formData.get('currentRevenue')}
+Target Revenue (3-6 months): ${formData.get('targetRevenue')}
+Average Deal Size: ${formData.get('averageDealSize')}
+
+SECTION 4: IDEAL CLIENT & OFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ideal Client: ${formData.get('idealClient')}
+Services Offered: ${services.join(', ')}
+Most Profitable Services: ${formData.get('profitableServices')}
+
+SECTION 5: LEADS & ACQUISITION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Primary Lead Source: ${formData.get('leadSource')}
+Weakest Part: ${formData.get('weakestPart')}
+
+SECTION 6: FUNNEL & PROCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Defined Funnel: ${formData.get('definedFunnel')}
+Drop-off Point: ${formData.get('dropOffPoint')}
+
+SECTION 7: DATA & CLARITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Currently Tracked Data: ${trackedData.join(', ')}
+Wished Data/Clarity: ${formData.get('wishedData')}
+
+SECTION 8: CORE BOTTLENECK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Core Problem: ${formData.get('coreBottleneck')}
+Attempted Solutions: ${formData.get('attemptedSolutions')}
+
+SECTION 9: SUCCESS DEFINITION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Success Metrics (90 days): ${successMetrics.join(', ')}
+
+SECTION 10: COLLABORATION STYLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Collaboration Type: ${formData.get('collaborationType')}
+Involvement Level: ${formData.get('involvementLevel')}
+
+SECTION 11: BUDGET & READINESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget Range: ${formData.get('budgetRange')}
+Timeline: ${formData.get('timeline')}
+
+SECTION 12: FINAL CONTEXT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${formData.get('finalContext') || 'No additional context provided'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Submitted: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+            `.trim();
+            
+            try {
+                // Using FormSubmit.co for email delivery
+                const response = await fetch('https://formsubmit.co/ajax/kaizenasc@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `New Agency Diagnostic: ${formData.get('agencyName')}`,
+                        _template: 'box',
+                        message: emailBody
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show success message
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error('Submission failed');
+                }
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                errorMessage.textContent = 'There was an error submitting the form. Please try again or email us directly at kaizenasc@gmail.com';
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Diagnostic';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    </script>
+</body>
+</html>
