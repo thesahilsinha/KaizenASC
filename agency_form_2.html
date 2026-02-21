@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Audit Form 2 - Portfolio & Testimonials</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .header .form-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .label-content {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1f2e;
+            color: #ffffff;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            color: #10b981;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .contact-info h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .scale-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .scale-option {
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scale-option:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .scale-option input[type="radio"] {
+            display: none;
+        }
+
+        .scale-option input[type="radio"]:checked + label {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .scale-option.selected {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header .subtitle {
+                font-size: 16px;
+            }
+
+            label {
+                font-size: 15px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="number"],
+            textarea,
+            select {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .scale-option {
+                min-width: 50px;
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="form-number">FORM 2 OF 2</span>
+            <h1>Agency Audit: Portfolio & Testimonials</h1>
+            <p class="subtitle">Your proof determines your pricing. Let's see what you're working with.</p>
+        </div>
+
+        <div class="contact-info">
+            <h3>📸 The Truth About Proof</h3>
+            <p>Most agencies have "happy clients" but no documented wins. Premium agencies have proof of transformation. This form will reveal which category you're in—and how to upgrade.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <h3>✓ Form Submitted Successfully!</h3>
+            <p>Thank you! We'll review your portfolio data and provide specific recommendations within 24 hours.</p>
+        </div>
+
+        <form id="portfolioForm" action="https://formsubmit.co/kaizenasc@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Agency Audit Form 2 - Portfolio & Testimonials">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <div class="form-section">
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">1</span>
+                        <span class="label-content">How many completed client projects have you delivered in the last 24 months?</span>
+                    </label>
+                    <input type="number" name="q1_completed_projects" required placeholder="e.g., 47">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">2</span>
+                        <span class="label-content">How many of those projects produced measurable, quantifiable results?</span>
+                    </label>
+                    <input type="number" name="q2_measurable_results" required placeholder="e.g., 28">
+                    <p class="helper-text">Results you can prove with numbers, not just "client was happy"</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">3</span>
+                        <span class="label-content">List your top 5 strongest case studies.</span>
+                    </label>
+                    <textarea name="q3_top_case_studies" required placeholder="1. E-commerce brand - 240% revenue increase in 6 months
+2. SaaS startup - Reduced CAC by 58% while scaling ads
+3. Real estate agency - Generated 180 qualified leads in 90 days
+4. Fashion brand - 3.2x ROAS on Meta ads
+5. B2B consulting firm - Filled sales pipeline with 45 SQLs"></textarea>
+                    <p class="helper-text">Brief description of each case study</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">4</span>
+                        <span class="label-content">For each case study, what was the client's industry and starting situation?</span>
+                    </label>
+                    <textarea name="q4_industry_situation" required placeholder="Case 1: E-commerce (Home Decor) - Revenue stuck at ₹12L/month for 8 months, 1.8% conversion rate
+Case 2: SaaS (HR Tech) - CAC at ₹8,500, burning through budget with poor targeting
+Case 3: Real Estate - Only getting 15 leads/month, closing ratio was 2%
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">5</span>
+                        <span class="label-content">What specific problem did the client hire you to solve?</span>
+                    </label>
+                    <textarea name="q5_problem_to_solve" required placeholder="Case 1: Break revenue plateau and scale profitably
+Case 2: Lower CAC while maintaining lead quality
+Case 3: Generate consistent qualified leads for high-ticket properties
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">6</span>
+                        <span class="label-content">What measurable result did you generate? (Revenue growth, ROI, cost reduction, leads, etc.)</span>
+                    </label>
+                    <textarea name="q6_measurable_result" required placeholder="Case 1: Revenue growth + conversion rate increase
+Case 2: CAC reduction + lead quality improvement
+Case 3: Lead generation volume + sales pipeline growth
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">7</span>
+                        <span class="label-content">What was the exact numerical outcome? (Include percentages and raw numbers.)</span>
+                    </label>
+                    <textarea name="q7_numerical_outcome" required placeholder="Case 1: Revenue ₹12L → ₹40.8L/month (240% increase), Conversion rate 1.8% → 4.2%
+Case 2: CAC ₹8,500 → ₹3,600 (58% reduction), Lead volume maintained at 80/month
+Case 3: 15 leads/month → 180 leads/month, Closing ratio 2% → 8%
+..."></textarea>
+                    <p class="helper-text">Specific before/after numbers with percentages</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">8</span>
+                        <span class="label-content">Over what time period were these results achieved?</span>
+                    </label>
+                    <textarea name="q8_time_period" required placeholder="Case 1: 6 months
+Case 2: 4 months
+Case 3: 90 days
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">9</span>
+                        <span class="label-content">What was the client paying you during that engagement?</span>
+                    </label>
+                    <textarea name="q9_client_payment" required placeholder="Case 1: ₹65,000/month for 6 months (total ₹3.9L)
+Case 2: ₹45,000/month for 4 months (total ₹1.8L)
+Case 3: ₹55,000/month for 3 months (total ₹1.65L)
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">10</span>
+                        <span class="label-content">What was your role in achieving the result versus the client's internal team?</span>
+                    </label>
+                    <textarea name="q10_your_role" required placeholder="Case 1: We handled 100% of ad strategy, creative production, and optimization. Client handled fulfillment and customer service.
+Case 2: We ran all paid acquisition, landing pages, and tracking. Client handled sales calls and CRM.
+..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">11</span>
+                        <span class="label-content">Do you have documented proof for each result? (Dashboards, screenshots, reports.)</span>
+                    </label>
+                    <select name="q11_documented_proof" required>
+                        <option value="">Select...</option>
+                        <option value="yes_all">Yes, for all case studies</option>
+                        <option value="yes_most">Yes, for most (3-4 out of 5)</option>
+                        <option value="yes_some">Yes, for some (1-2 out of 5)</option>
+                        <option value="no_none">No, no documented proof</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">12</span>
+                        <span class="label-content">How many written testimonials do you currently have?</span>
+                    </label>
+                    <input type="number" name="q12_testimonial_count" required placeholder="e.g., 18">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">13</span>
+                        <span class="label-content">How many testimonials explicitly mention measurable outcomes?</span>
+                    </label>
+                    <input type="number" name="q13_testimonials_with_outcomes" required placeholder="e.g., 7">
+                    <p class="helper-text">Testimonials that include numbers like "increased revenue by X%" or "generated Y leads"</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">14</span>
+                        <span class="label-content">How many testimonials mention ROI or revenue impact?</span>
+                    </label>
+                    <input type="number" name="q14_testimonials_roi" required placeholder="e.g., 4">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">15</span>
+                        <span class="label-content">Do your testimonials describe transformation, or just satisfaction?</span>
+                    </label>
+                    <textarea name="q15_transformation_vs_satisfaction" required placeholder="e.g., Most describe satisfaction ('great to work with', 'responsive team') but only 3 describe actual transformation ('helped us scale from ₹5L to ₹18L monthly revenue')"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">16</span>
+                        <span class="label-content">How recent are your strongest testimonials? (Within 6 months, 12 months, older?)</span>
+                    </label>
+                    <textarea name="q16_testimonial_recency" required placeholder="e.g., 2 within 6 months, 5 within 12 months, rest are 18-24 months old"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">17</span>
+                        <span class="label-content">Are your best case studies aligned with the type of clients you want more of?</span>
+                    </label>
+                    <textarea name="q17_case_study_alignment" required placeholder="e.g., Yes - our best case studies are all e-commerce brands and that's exactly who we want to serve. OR No - our best results were for local businesses but we want to target SaaS companies now."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">18</span>
+                        <span class="label-content">Do you publicly display pricing alongside proof? Why or why not?</span>
+                    </label>
+                    <textarea name="q18_pricing_display" required placeholder="e.g., No - we're worried it will scare away budget clients or invite comparison shopping. OR Yes - we display packages starting at ₹X to pre-qualify leads."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">19</span>
+                        <span class="label-content">If a prospect asked for proof of ROI tomorrow, what exact assets would you send them?</span>
+                    </label>
+                    <textarea name="q19_proof_assets" required placeholder="e.g., 
+- Case study PDF with before/after screenshots
+- Client testimonial video
+- Google Analytics dashboard exports
+- LinkedIn recommendation links
+- Nothing formal - I'd just tell them verbally about results"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">20</span>
+                        <span class="label-content">On a scale of 1–10, how confident are you that your proof justifies premium pricing? Why?</span>
+                    </label>
+                    <input type="number" name="q20_confidence_score" min="1" max="10" required placeholder="Enter 1-10">
+                    <textarea name="q20_confidence_reasoning" required placeholder="Explain your rating. e.g., '6/10 - We have good results but our documentation is weak and testimonials are vague. Hard to justify high prices when proof isn't air-tight.'"></textarea>
+                    <p class="helper-text">1 = No confidence at all, 10 = Extremely confident</p>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Portfolio Audit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('portfolioForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>

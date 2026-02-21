@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Audit Form 1 - Services & Current Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .header .form-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .label-content {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            color: #10b981;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .contact-info h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header .subtitle {
+                font-size: 16px;
+            }
+
+            label {
+                font-size: 15px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="number"],
+            textarea {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="form-number">FORM 1 OF 1</span>
+            <h1>Agency Audit: Services & Current Pricing</h1>
+            <p class="subtitle">Answer every question honestly. This data reveals exactly where your revenue is hiding.</p>
+        </div>
+
+        <div class="contact-info">
+            <h3>📋 Before You Start</h3>
+            <p>This audit takes 15-20 minutes. Have your financial records ready. Be brutally honest—we've seen it all, and we can only help you grow if we know the real numbers.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <h3>✓ Form Submitted Successfully!</h3>
+            <p>Thank you for your submission. We'll analyze your data and reach out within 24 hours with your personalized audit.</p>
+        </div>
+
+        <form id="agencyForm" action="https://formsubmit.co/kaizenasc@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Agency Audit Form 1 - Services & Pricing">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <div class="form-section">
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">1</span>
+                        <span class="label-content">List every revenue-generating service you currently offer.</span>
+                    </label>
+                    <textarea name="q1_services_offered" required placeholder="e.g., Social Media Management, SEO, Paid Ads, Website Development, Content Creation..."></textarea>
+                    <p class="helper-text">List all services, even if they generate minimal revenue</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">2</span>
+                        <span class="label-content">For each service, what is the exact price you charge today?</span>
+                    </label>
+                    <textarea name="q2_current_pricing" required placeholder="e.g., Social Media Management: ₹25,000/month, SEO: ₹40,000/month..."></textarea>
+                    <p class="helper-text">List service name and price per month/project</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">3</span>
+                        <span class="label-content">What is the average price actually sold for each service over the last 6 months?</span>
+                    </label>
+                    <textarea name="q3_avg_price_sold" required placeholder="e.g., Social Media Management: ₹22,000/month (avg actual), SEO: ₹35,000/month..."></textarea>
+                    <p class="helper-text">What clients actually paid (after discounts/negotiations)</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">4</span>
+                        <span class="label-content">What is the lowest price you have accepted for each service in the last 6 months?</span>
+                    </label>
+                    <textarea name="q4_lowest_price" required placeholder="e.g., Social Media Management: ₹15,000/month, SEO: ₹25,000/month..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">5</span>
+                        <span class="label-content">What is the highest price you have closed for each service in the last 6 months?</span>
+                    </label>
+                    <textarea name="q5_highest_price" required placeholder="e.g., Social Media Management: ₹35,000/month, SEO: ₹55,000/month..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">6</span>
+                        <span class="label-content">How many clients did you serve per service in each of the last 6 months? (Break down month-by-month.)</span>
+                    </label>
+                    <textarea name="q6_monthly_clients" required placeholder="Social Media Management: Aug-3, Sep-4, Oct-5, Nov-5, Dec-6, Jan-7
+SEO: Aug-2, Sep-2, Oct-3, Nov-3, Dec-3, Jan-4..."></textarea>
+                    <p class="helper-text">Be specific for each service and each month</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">7</span>
+                        <span class="label-content">What is the average monthly revenue generated per service?</span>
+                    </label>
+                    <textarea name="q7_avg_monthly_revenue" required placeholder="e.g., Social Media Management: ₹1,32,000/month, SEO: ₹1,05,000/month..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">8</span>
+                        <span class="label-content">For each service, what is the average contract length (in months)?</span>
+                    </label>
+                    <textarea name="q8_contract_length" required placeholder="e.g., Social Media Management: 6 months, SEO: 12 months, Website Dev: One-time..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">9</span>
+                        <span class="label-content">For each service, what is the total team time required per client per month? (Hours broken down by role.)</span>
+                    </label>
+                    <textarea name="q9_team_hours" required placeholder="Social Media Management: Account Manager-5hrs, Designer-10hrs, Copywriter-8hrs
+SEO: SEO Specialist-15hrs, Content Writer-20hrs..."></textarea>
+                    <p class="helper-text">Break down by role and hours per month per client</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">10</span>
+                        <span class="label-content">What is the total payroll cost allocated per client for delivering this service?</span>
+                    </label>
+                    <textarea name="q10_payroll_cost" required placeholder="e.g., Social Media Management: ₹8,500/client/month, SEO: ₹12,000/client/month..."></textarea>
+                    <p class="helper-text">Calculate based on team time × hourly cost</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">11</span>
+                        <span class="label-content">What contractor or freelancer costs are directly tied to delivering this service per client?</span>
+                    </label>
+                    <textarea name="q11_contractor_costs" required placeholder="e.g., Social Media Management: ₹3,000/client (freelance video editor), SEO: ₹0..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">12</span>
+                        <span class="label-content">What software or tool costs should be allocated per client for this service?</span>
+                    </label>
+                    <textarea name="q12_software_costs" required placeholder="e.g., Social Media Management: ₹800/client (Canva, Buffer, analytics tools), SEO: ₹1,200/client (Ahrefs, SEMrush)..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">13</span>
+                        <span class="label-content">What additional direct fulfillment costs exist per client? (Ads, reporting tools, production, etc.)</span>
+                    </label>
+                    <textarea name="q13_additional_costs" required placeholder="e.g., Paid Ads: ₹2,000/client (reporting dashboard), Video Production: ₹5,000/client (stock footage)..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">14</span>
+                        <span class="label-content">What is the total direct delivery cost per client per month for each service?</span>
+                    </label>
+                    <textarea name="q14_total_delivery_cost" required placeholder="e.g., Social Media Management: ₹12,300/client/month (payroll + freelancers + tools), SEO: ₹13,200/client/month..."></textarea>
+                    <p class="helper-text">Sum of Q10 + Q11 + Q12 + Q13</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">15</span>
+                        <span class="label-content">What is the gross profit per client per service? (Revenue minus direct cost.)</span>
+                    </label>
+                    <textarea name="q15_gross_profit" required placeholder="e.g., Social Media Management: ₹9,700/client/month (₹22,000 - ₹12,300), SEO: ₹21,800/client/month..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">16</span>
+                        <span class="label-content">What is the gross margin percentage per service?</span>
+                    </label>
+                    <textarea name="q16_gross_margin" required placeholder="e.g., Social Media Management: 44%, SEO: 62%, Paid Ads: 38%..."></textarea>
+                    <p class="helper-text">Calculate: (Gross Profit / Revenue) × 100</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">17</span>
+                        <span class="label-content">Which service currently generates the highest total gross profit per month?</span>
+                    </label>
+                    <textarea name="q17_highest_profit_service" required placeholder="e.g., SEO - generates ₹87,200 gross profit/month (4 clients × ₹21,800)"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">18</span>
+                        <span class="label-content">Which service has the lowest margin percentage?</span>
+                    </label>
+                    <textarea name="q18_lowest_margin_service" required placeholder="e.g., Paid Ads Management - only 28% margin due to high reporting and management time"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">19</span>
+                        <span class="label-content">If you doubled sales for each service tomorrow, what operational constraint would break first?</span>
+                    </label>
+                    <textarea name="q19_operational_constraint" required placeholder="e.g., Our design team is maxed out. We only have 2 designers and they're at 90% capacity. We'd need to hire immediately or work would pile up..."></textarea>
+                    <p class="helper-text">Be specific about the bottleneck (team, tools, time, systems)</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">20</span>
+                        <span class="label-content">If you had to eliminate one service to improve overall profitability, which would it be and why?</span>
+                    </label>
+                    <textarea name="q20_eliminate_service" required placeholder="e.g., Website Maintenance - low margin (25%), time-intensive, and distracts team from high-value SEO work. Generates only ₹45K/month but takes 60 hours of dev time..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Audit Form</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('agencyForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
