@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Audit Form 3 - Pricing Behaviour & Premium Readiness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .header .form-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .label-content {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #10b981;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1f2e;
+            color: #ffffff;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            color: #10b981;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .contact-info h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .scale-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .scale-option {
+            flex: 1;
+            min-width: 45px;
+            max-width: 70px;
+        }
+
+        .scale-option input[type="radio"] {
+            display: none;
+        }
+
+        .scale-option label {
+            display: block;
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .scale-option input[type="radio"]:checked + label {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .scale-option label:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header .subtitle {
+                font-size: 16px;
+            }
+
+            label {
+                font-size: 15px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="number"],
+            textarea,
+            select {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .scale-option {
+                min-width: 40px;
+                max-width: 60px;
+            }
+
+            .scale-option label {
+                padding: 10px 6px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="form-number">FORM 3 OF 3</span>
+            <h1>Agency Audit: Pricing Psychology</h1>
+            <p class="subtitle">Pricing problems are rarely math problems. They're belief problems wearing a calculator costume.</p>
+        </div>
+
+        <div class="contact-info">
+            <h3>🧠 The Vault Opens</h3>
+            <p>Most agencies undercharge because of fear, not facts. This form exposes the invisible ceiling in your head—the one that's costing you ₹5-10 lakhs every month. No judgment. Just truth.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <h3>✓ Psychology Vault Unlocked!</h3>
+            <p>Thank you for your brutal honesty. We'll analyze your pricing psychology and provide breakthrough insights within 24 hours.</p>
+        </div>
+
+        <form id="pricingForm" action="https://formsubmit.co/kaizenasc@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Agency Audit Form 3 - Pricing Behaviour & Premium Readiness">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <div class="form-section">
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">1</span>
+                        <span class="label-content">What is the highest price you have ever charged for a single service or project?</span>
+                    </label>
+                    <input type="text" name="q1_highest_price" required placeholder="e.g., ₹1,25,000 for a 3-month campaign">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">2</span>
+                        <span class="label-content">What was the context of that sale? (Client type, situation, urgency, referral, etc.)</span>
+                    </label>
+                    <textarea name="q2_sale_context" required placeholder="e.g., Referred by existing client, urgent product launch in 30 days, well-funded startup, had worked with big agencies before and wanted something more personal..."></textarea>
+                    <p class="helper-text">What made this sale possible at that price?</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">3</span>
+                        <span class="label-content">How confident did you feel while presenting that price? (1–10)</span>
+                    </label>
+                    <div class="scale-container">
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="1" id="conf1" required>
+                            <label for="conf1">1</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="2" id="conf2">
+                            <label for="conf2">2</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="3" id="conf3">
+                            <label for="conf3">3</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="4" id="conf4">
+                            <label for="conf4">4</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="5" id="conf5">
+                            <label for="conf5">5</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="6" id="conf6">
+                            <label for="conf6">6</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="7" id="conf7">
+                            <label for="conf7">7</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="8" id="conf8">
+                            <label for="conf8">8</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="9" id="conf9">
+                            <label for="conf9">9</label>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3_confidence_level" value="10" id="conf10">
+                            <label for="conf10">10</label>
+                        </div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>Terrified</span>
+                        <span>Totally confident</span>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">4</span>
+                        <span class="label-content">What price point currently feels "uncomfortable but possible" for your services?</span>
+                    </label>
+                    <input type="text" name="q4_uncomfortable_price" required placeholder="e.g., ₹75,000/month feels like a stretch but not impossible">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">5</span>
+                        <span class="label-content">What price point feels "too high for your market" in your opinion?</span>
+                    </label>
+                    <input type="text" name="q5_too_high_price" required placeholder="e.g., ₹1,50,000/month - our market won't pay that">
+                    <p class="helper-text">The price that feels impossible to charge</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">6</span>
+                        <span class="label-content">In the last 6 months, how often have you discounted your services to close a deal?</span>
+                    </label>
+                    <select name="q6_discount_frequency" required>
+                        <option value="">Select...</option>
+                        <option value="never">Never</option>
+                        <option value="rarely">Rarely (1-2 times)</option>
+                        <option value="sometimes">Sometimes (3-5 times)</option>
+                        <option value="often">Often (6-10 times)</option>
+                        <option value="almost_always">Almost always (10+ times)</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">7</span>
+                        <span class="label-content">What is the largest discount you have given in the last 6 months?</span>
+                    </label>
+                    <input type="text" name="q7_largest_discount" required placeholder="e.g., 40% off - quoted ₹50K, closed at ₹30K">
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">8</span>
+                        <span class="label-content">When a prospect says your price is too high, what is your typical response?</span>
+                    </label>
+                    <textarea name="q8_pushback_response" required placeholder="e.g., I usually ask what their budget is and try to work something out. Sometimes I offer a payment plan or remove some deliverables to lower the price..."></textarea>
+                    <p class="helper-text">Be honest - what do you actually say/do?</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">9</span>
+                        <span class="label-content">How often do prospects push back on your pricing?</span>
+                    </label>
+                    <select name="q9_pushback_frequency" required>
+                        <option value="">Select...</option>
+                        <option value="rarely">Rarely (less than 20% of prospects)</option>
+                        <option value="sometimes">Sometimes (20-40% of prospects)</option>
+                        <option value="often">Often (40-60% of prospects)</option>
+                        <option value="most_time">Most of the time (60-80% of prospects)</option>
+                        <option value="almost_always">Almost always (80%+ of prospects)</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">10</span>
+                        <span class="label-content">When prospects push back, what objections appear most frequently?</span>
+                    </label>
+                    <textarea name="q10_common_objections" required placeholder="e.g., 'Other agencies quoted lower', 'We don't have that in our budget', 'Can you do it for less if we remove X?', 'We need to think about it'..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">11</span>
+                        <span class="label-content">Have you ever increased your pricing significantly? If yes, what happened to your close rate?</span>
+                    </label>
+                    <textarea name="q11_price_increase_impact" required placeholder="e.g., Yes - increased from ₹25K to ₹40K last year. Close rate dropped from 40% to 25% initially but came back up to 35% after 3 months. OR No - never increased significantly, too scared of losing deals."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">12</span>
+                        <span class="label-content">Have you ever lost a deal specifically because your price was too high?</span>
+                    </label>
+                    <textarea name="q12_lost_deal_price" required placeholder="e.g., Yes - multiple times. Last one was a SaaS client who went with a freelancer at half our price. OR No - usually when we lose deals it's because of fit or timing, not price."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">13</span>
+                        <span class="label-content">What price would you charge if you had complete confidence that clients would still buy?</span>
+                    </label>
+                    <input type="text" name="q13_confident_price" required placeholder="e.g., ₹1,20,000/month - that's what the value is actually worth">
+                    <p class="helper-text">If fear wasn't a factor, what would you charge?</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">14</span>
+                        <span class="label-content">What fears come up when you think about doubling your prices?</span>
+                    </label>
+                    <textarea name="q14_pricing_fears" required placeholder="e.g., Fear that no one will buy. Fear that clients will leave. Fear that I'll price myself out of the market. Fear that I'm not good enough to charge that much. Fear that competitors will undercut me..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">15</span>
+                        <span class="label-content">What do you believe makes a client willing to pay premium prices?</span>
+                    </label>
+                    <textarea name="q15_premium_drivers" required placeholder="e.g., Proven ROI, strong brand reputation, urgency, past results, personal referrals, specialized expertise..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">16</span>
+                        <span class="label-content">What do you believe currently prevents you from charging premium prices?</span>
+                    </label>
+                    <textarea name="q16_premium_barriers" required placeholder="e.g., Not enough case studies, lack of brand recognition, competitors undercut us, not confident in pitching higher prices, don't have enough proof..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">17</span>
+                        <span class="label-content">Which competitors in your market charge significantly more than you?</span>
+                    </label>
+                    <textarea name="q17_expensive_competitors" required placeholder="e.g., Agency X charges ₹2L+/month, Agency Y has packages starting at ₹1.5L. OR I don't know of any - most agencies seem to be in the same range as us."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">18</span>
+                        <span class="label-content">Why do you believe they can charge more?</span>
+                    </label>
+                    <textarea name="q18_why_they_charge_more" required placeholder="e.g., Bigger brand, better portfolio, work with enterprise clients, been around longer, better sales process, stronger positioning..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">19</span>
+                        <span class="label-content">What internal belief about pricing has influenced your pricing decisions the most?</span>
+                    </label>
+                    <textarea name="q19_core_belief" required placeholder="e.g., 'I need to be affordable to compete', 'Clients won't pay more than X in this market', 'I'm not experienced enough to charge premium', 'If I charge too much people will think I'm greedy'..."></textarea>
+                    <p class="helper-text">The deep belief that shapes your pricing</p>
+                </div>
+
+                <div class="question-group">
+                    <label>
+                        <span class="question-number">20</span>
+                        <span class="label-content">If you had to increase your pricing by 50% tomorrow, what would need to change in your agency?</span>
+                    </label>
+                    <textarea name="q20_whats_needed" required placeholder="e.g., Better case studies, more professional branding, improved sales process, stronger positioning, team certifications, better proof of ROI, refined service offering, premium guarantee..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Pricing Psychology Audit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('pricingForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
