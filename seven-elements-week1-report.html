@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seven Elements Design — Week 1 Outreach Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #3d3a34;
+    --ink-soft: #6b6760;
+    --ink-mute: #9e9b96;
+    --cream: #faf8f4;
+    --cream-dark: #f2efe9;
+    --cream-mid: #e8e4dc;
+    --gold: #b8860b;
+    --gold-light: #d4a82a;
+    --gold-pale: #f5edcc;
+    --green: #2d6a4f;
+    --green-pale: #d8f3e6;
+    --red: #8b2020;
+    --red-pale: #fde8e8;
+    --amber: #7a4f00;
+    --amber-pale: #fff3d6;
+    --border: rgba(26,24,20,0.1);
+    --border-med: rgba(26,24,20,0.18);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 80px 64px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .cover-eyebrow {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 28px;
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 56px;
+    font-style: italic;
+  }
+  .cover-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 36px;
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+  .cover-meta-item span {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(184,134,11,0.2);
+    border: 1px solid rgba(184,134,11,0.35);
+    color: var(--gold-light);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  /* LAYOUT */
+  .report-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* TOC */
+  .toc {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+  .toc-title {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 40px;
+  }
+  .toc-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--ink-mid);
+  }
+  .toc-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+    min-width: 20px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 72px;
+  }
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    padding-top: 5px;
+    min-width: 28px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  /* STAT CARDS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .stat-card {
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 18px;
+    position: relative;
+  }
+  .stat-card.highlight {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .stat-card.highlight .stat-label { color: rgba(255,255,255,0.5); }
+  .stat-card.highlight .stat-value { color: #fff; }
+  .stat-card.highlight .stat-note { color: rgba(255,255,255,0.4); }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-note {
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+
+  /* DIAGNOSIS BLOCK */
+  .diagnosis {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 32px 36px;
+    border-radius: 4px;
+    margin: 36px 0;
+    position: relative;
+  }
+  .diagnosis::before {
+    content: '"';
+    font-family: var(--font-display);
+    font-size: 120px;
+    line-height: 0.8;
+    color: rgba(255,255,255,0.06);
+    position: absolute;
+    top: 20px; left: 24px;
+    pointer-events: none;
+  }
+  .diagnosis p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.88);
+    position: relative;
+  }
+  .diagnosis strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  /* LEAD CARDS */
+  .lead-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  @media (max-width: 600px) { .lead-grid { grid-template-columns: 1fr; } }
+  .lead-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    background: var(--cream-dark);
+  }
+  .lead-card.lost { border-left: 3px solid var(--red); }
+  .lead-card.warm { border-left: 3px solid var(--amber); }
+  .lead-card.hot  { border-left: 3px solid var(--green); }
+  .lead-tag {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .lead-tag.lost-t { color: var(--red); }
+  .lead-tag.warm-t { color: var(--amber); }
+  .lead-tag.hot-t  { color: var(--green); }
+  .lead-card p {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
+
+  /* CHART WRAPPER */
+  .chart-wrap {
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 24px;
+    margin: 28px 0;
+  }
+  .chart-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  /* FUNNEL */
+  .funnel-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 28px 0;
+  }
+  .funnel-row {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .funnel-bar-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .funnel-bar {
+    height: 44px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    min-width: 100px;
+    transition: width 0.4s ease;
+  }
+  .funnel-meta {
+    min-width: 100px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .funnel-meta strong { color: var(--ink); display: block; font-size: 15px; }
+
+  /* CHANNEL BREAKDOWN */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  @media (max-width: 520px) { .channel-grid { grid-template-columns: 1fr; } }
+  .channel-card {
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .channel-name {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .channel-stat {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .channel-desc { font-size: 13px; color: var(--ink-soft); }
+  .channel-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  .badge-strong { background: var(--green-pale); color: var(--green); }
+  .badge-mid    { background: var(--amber-pale); color: var(--amber); }
+  .badge-low    { background: var(--red-pale); color: var(--red); }
+
+  /* RECOMMENDATION BLOCKS */
+  .rec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .rec-item {
+    display: flex;
+    gap: 16px;
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    align-items: flex-start;
+  }
+  .rec-item.priority { border-left: 3px solid var(--gold); }
+  .rec-item.secondary { border-left: 3px solid var(--ink-mute); }
+  .rec-icon {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--gold);
+    min-width: 28px;
+    padding-top: 2px;
+  }
+  .rec-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .rec-content p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--cream-dark);
+    border: 1px solid var(--border-med);
+    border-radius: 4px;
+    padding: 40px 36px;
+    text-align: center;
+    margin-top: 64px;
+  }
+  .verdict-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .verdict-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .verdict-body {
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.8;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* METER BAR */
+  .meter-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .meter-label { font-size: 13px; color: var(--ink-mid); min-width: 130px; }
+  .meter-track {
+    flex: 1;
+    height: 8px;
+    background: var(--cream-mid);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--ink);
+  }
+  .meter-val { font-size: 12px; color: var(--ink-soft); min-width: 36px; text-align: right; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 28px 32px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .footer strong { color: rgba(255,255,255,0.7); }
+
+  /* DIVIDER */
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin: 20px 0 28px;
+  }
+
+  p { color: var(--ink-mid); line-height: 1.8; }
+  p + p { margin-top: 14px; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    margin-right: 5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Kaizen ASC · Confidential</div>
+  <div class="cover-eyebrow">Outreach Assessment Report · Week 1</div>
+  <div class="cover-title">Seven Elements<br>Design</div>
+  <div class="cover-subtitle">LinkedIn Outreach & Paid Campaign Analysis</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><label>Client</label><span>Seven Elements Design</span></div>
+    <div class="cover-meta-item"><label>Decision Maker</label><span>Mugdha Joshi, Founder</span></div>
+    <div class="cover-meta-item"><label>Channel</label><span>LinkedIn (Outreach + Ads)</span></div>
+    <div class="cover-meta-item"><label>Prepared by</label><span>Kaizen ASC</span></div>
+    <div class="cover-meta-item"><label>Period</label><span>Week 1</span></div>
+    <div class="cover-meta-item"><label>Product</label><span>Brand Strategy + Logo Design</span></div>
+  </div>
+</div>
+
+<div class="report-body">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span> Week 1 Snapshot</li>
+      <li><span class="toc-num">02</span> Channel Performance</li>
+      <li><span class="toc-num">03</span> Pipeline & Lead Status</li>
+      <li><span class="toc-num">04</span> Conversion Funnel</li>
+      <li><span class="toc-num">05</span> Bottlenecks Identified</li>
+      <li><span class="toc-num">06</span> Forward Strategy</li>
+      <li><span class="toc-num">07</span> Success Metrics</li>
+    </ul>
+  </div>
+
+  <!-- 01 SNAPSHOT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Week 1 Snapshot</h2>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card highlight">
+        <div class="stat-label">Outreach Messages Sent</div>
+        <div class="stat-value">24</div>
+        <div class="stat-note">LinkedIn · Direct DMs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Ad Credits Used</div>
+        <div class="stat-value">1,200</div>
+        <div class="stat-note">LinkedIn Ads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Ad Impressions</div>
+        <div class="stat-value">6K</div>
+        <div class="stat-note">Total reach this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Ad Comments</div>
+        <div class="stat-value">6</div>
+        <div class="stat-note">Organic engagement</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Meetings Booked</div>
+        <div class="stat-value">4</div>
+        <div class="stat-note">Discovery calls held</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Product Price Point</div>
+        <div class="stat-value">₹45K</div>
+        <div class="stat-note">Brand Strategy + Logo</div>
+      </div>
+    </div>
+
+    <div class="diagnosis">
+      <p><strong>Core diagnosis:</strong> Week 1 delivered a strong-to-mid result for a first outreach cycle. 4 meetings from 24 messages is a conversion rate that most early-stage pipelines would not achieve. The constraint is not reach — it is call quality, pricing conversation, and lead qualification. The gap between pipeline and closed revenue is a systems and communication problem, not a market problem.</p>
+    </div>
+  </div>
+
+  <!-- 02 CHANNEL PERFORMANCE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Channel Performance</h2>
+    </div>
+
+    <p>Two channels were active this week: direct LinkedIn outreach and LinkedIn paid ads. Both generated results — but at meaningfully different quality levels. Outreach was the dominant lead engine, responsible for 3 of the 4 meetings booked.</p>
+
+    <div class="channel-grid">
+      <div class="channel-card">
+        <div class="channel-name">LinkedIn Outreach</div>
+        <div class="channel-stat">3 / 4</div>
+        <div class="channel-desc">meetings sourced from direct DM outreach</div>
+        <div><span class="channel-badge badge-strong">Strong</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name">LinkedIn Ads</div>
+        <div class="channel-stat">1 / 4</div>
+        <div class="channel-desc">meeting sourced from 6K impressions · 6 comments</div>
+        <div><span class="channel-badge badge-mid">Mid</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name">Cold Email</div>
+        <div class="channel-stat">—</div>
+        <div class="channel-desc">not activated this week · planned for Week 2+</div>
+        <div><span class="channel-badge badge-low">Pending</span></div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-name">Video Content</div>
+        <div class="channel-stat">—</div>
+        <div class="channel-desc">LinkedIn + Instagram video · highest-leverage future channel</div>
+        <div><span class="channel-badge badge-low">Recommended</span></div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-top: 24px;">
+      <div class="chart-label">Meeting sources — Week 1</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#1a1814;"></span>Outreach (75%)</span>
+        <span><span class="legend-dot" style="background:#b8860b;"></span>Ads (25%)</span>
+      </div>
+      <div style="position:relative;width:100%;height:220px;">
+        <canvas id="sourceChart" role="img" aria-label="Pie chart showing 75% of meetings from outreach and 25% from ads">3 meetings from outreach, 1 from ads.</canvas>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-label">Ad performance — Impressions vs Engagement</div>
+      <div style="position:relative;width:100%;height:200px;">
+        <canvas id="adChart" role="img" aria-label="Bar chart showing 6000 impressions and 6 comments from LinkedIn ads">6000 impressions, 6 comments.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 PIPELINE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Pipeline & Lead Status</h2>
+    </div>
+
+    <p>Four meetings were completed this week. CRM notes indicate distinct profiles for each lead. The breakdown below reflects both the opportunity and the friction present at this stage of the pipeline.</p>
+
+    <div class="lead-grid">
+      <div class="lead-card lost">
+        <div class="lead-tag lost-t">Lost</div>
+        <p><strong>Pricing misalignment.</strong> The lead was not aligned to the ₹45K price point. Dropped post-call. No further follow-up recommended without a significant change in their brief or budget signals.</p>
+      </div>
+      <div class="lead-card warm">
+        <div class="lead-tag warm-t">Passive</div>
+        <p><strong>Not directly active.</strong> Showed interest but has not progressed. Low urgency or internal dependency. Keep in nurture — a structured follow-up sequence over 2–3 weeks may re-activate.</p>
+      </div>
+      <div class="lead-card hot">
+        <div class="lead-tag hot-t">Warm</div>
+        <p><strong>Collaborative energy.</strong> This lead is the most qualified. Showed genuine intent and openness to working together. Prioritise next touchpoint within 48 hours. Close window is open.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <p style="font-size: 13px; color: var(--ink-soft);">Note: The 4th meeting was the one sourced from ads. CRM status for that lead is not separately noted in this report — to be updated.</p>
+    </div>
+
+    <div class="chart-wrap" style="margin-top: 24px;">
+      <div class="chart-label">Lead quality distribution — 4 meetings</div>
+      <div style="position:relative;width:100%;height:200px;">
+        <canvas id="leadChart" role="img" aria-label="Horizontal bar chart showing lead quality: 1 hot, 1 passive, 1 lost, 1 unknown">Lead quality breakdown across 4 meetings.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 FUNNEL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Conversion Funnel</h2>
+    </div>
+
+    <p>The funnel shows strong top-to-mid performance. The primary drop-off is at the proposal and pricing stage. Fixing the conversion rate here has a higher ROI than increasing outreach volume at the top.</p>
+
+    <div class="funnel-stages">
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:100%;background:#1a1814;">24 messages sent</div>
+        </div>
+        <div class="funnel-meta"><strong>24</strong>Outreach volume</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:60%;background:#3d3a34;">Responses / Engaged</div>
+        </div>
+        <div class="funnel-meta"><strong>~8–10</strong>Estimated</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:40%;background:#5f5c56;">4 meetings booked</div>
+        </div>
+        <div class="funnel-meta"><strong>4</strong>16.7% of outreach</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:18%;background:#b8860b;">1 warm lead</div>
+        </div>
+        <div class="funnel-meta"><strong>1</strong>Active opportunity</div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:6%;background:#8b7355;">Closed</div>
+        </div>
+        <div class="funnel-meta"><strong>0</strong>Week 1 target</div>
+      </div>
+    </div>
+
+    <div class="diagnosis">
+      <p>The funnel is <strong>healthy at the top</strong>. The problem is at the pricing conversation. Calls are converting into meetings but not into proposals because pricing is introduced without sufficient setup — before the value of the product has been fully established in the prospect's mind. This is a call script and sequencing problem, not a pricing problem.</p>
+    </div>
+  </div>
+
+  <!-- 05 BOTTLENECKS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Bottlenecks Identified</h2>
+    </div>
+
+    <p>Three structural gaps surfaced in Week 1 that will constrain growth if not resolved before scaling outreach volume.</p>
+
+    <div class="divider"></div>
+
+    <div style="margin-bottom: 28px;">
+      <p><strong style="color:var(--ink);">Pricing conversation arriving too early.</strong> Multiple leads showed friction at the ₹45K point — not necessarily because of the number itself, but because the discovery call did not build enough perceived value before the figure was introduced. The fix is structural: price should arrive after a problem statement has been co-created with the prospect, not as a line item in a features list.</p>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <p><strong style="color:var(--ink);">Call quality and confidence gap.</strong> CRM notes suggest that the pricing section of calls is where the conversation loses momentum. Mock call practice specifically on the pricing segment — including objection handling and reframing the value proposition — is the single highest-leverage improvement available right now.</p>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <p><strong style="color:var(--ink);">No cold email or content layer.</strong> The pipeline currently runs on one channel. A single-channel pipeline is fragile — it cannot compound. Cold email and video content would add lead sources that run in parallel, increase touchpoints with warm leads, and build brand recall over time.</p>
+    </div>
+
+    <div style="margin-top: 28px;">
+      <div class="chart-label" style="margin-bottom: 16px;">Bottleneck severity — Week 1 assessment</div>
+      <div class="meter-row">
+        <div class="meter-label">Pricing framing</div>
+        <div class="meter-track"><div class="meter-fill" style="width:88%;"></div></div>
+        <div class="meter-val">High</div>
+      </div>
+      <div class="meter-row">
+        <div class="meter-label">Call structure</div>
+        <div class="meter-track"><div class="meter-fill" style="width:75%;"></div></div>
+        <div class="meter-val">High</div>
+      </div>
+      <div class="meter-row">
+        <div class="meter-label">Lead qualification</div>
+        <div class="meter-track"><div class="meter-fill" style="width:60%;"></div></div>
+        <div class="meter-val">Mid</div>
+      </div>
+      <div class="meter-row">
+        <div class="meter-label">Content presence</div>
+        <div class="meter-track"><div class="meter-fill" style="width:50%;"></div></div>
+        <div class="meter-val">Mid</div>
+      </div>
+      <div class="meter-row">
+        <div class="meter-label">Channel diversity</div>
+        <div class="meter-track"><div class="meter-fill" style="width:40%;"></div></div>
+        <div class="meter-val">Low</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 FORWARD STRATEGY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Forward Strategy</h2>
+    </div>
+
+    <p>The Week 1 learning is clear: outreach works, calls are happening, but the pricing conversation is ending deals before they start. The forward strategy addresses this directly — before adding more volume.</p>
+
+    <div class="rec-list">
+      <div class="rec-item priority">
+        <div class="rec-icon">→</div>
+        <div class="rec-content">
+          <h4>Mock call practice — pricing segment</h4>
+          <p>Prioritise structured practice specifically on how pricing is introduced and handled. The goal is confidence, brevity, and timing — not a scripted pitch. Run at least 3 mock calls this week before the next live call.</p>
+        </div>
+      </div>
+      <div class="rec-item priority">
+        <div class="rec-icon">→</div>
+        <div class="rec-content">
+          <h4>Continue LinkedIn outreach — maintain volume</h4>
+          <p>Outreach is the strongest active channel. Keep 20–30 messages per week going. Refine targeting criteria to better filter for decision-makers with active brand needs. Outreach quality over quantity.</p>
+        </div>
+      </div>
+      <div class="rec-item priority">
+        <div class="rec-icon">→</div>
+        <div class="rec-content">
+          <h4>Cold email — activate with verification first</h4>
+          <p>Build a prospect list with verified emails before sending a single message. Unverified lists damage sender reputation. Tool recommendation: Apollo or Hunter for prospecting and verification. Prioritise decision-makers in target industries.</p>
+        </div>
+      </div>
+      <div class="rec-item secondary">
+        <div class="rec-icon">↗</div>
+        <div class="rec-content">
+          <h4>LinkedIn + Instagram video content</h4>
+          <p>The highest-leverage long-term channel. Short-form video showing brand thinking, process, and perspective builds trust with prospects before they ever speak to you. Start with 1 video per week — consistency over perfection.</p>
+        </div>
+      </div>
+      <div class="rec-item secondary">
+        <div class="rec-icon">↗</div>
+        <div class="rec-content">
+          <h4>Follow up the warm lead within 48 hours</h4>
+          <p>The collaborative-energy lead from this week is the most time-sensitive action in the entire pipeline right now. A clear, brief follow-up — proposing next steps, not asking if they're interested — keeps momentum going.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 SUCCESS METRICS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Success Metrics — Week 2 Targets</h2>
+    </div>
+
+    <p>These are the measurable outcomes that define a successful Week 2. Each is binary and directly tied to the bottlenecks identified above.</p>
+
+    <div class="stat-grid" style="margin-top: 28px;">
+      <div class="stat-card">
+        <div class="stat-label">Outreach volume</div>
+        <div class="stat-value">25+</div>
+        <div class="stat-note">LinkedIn messages sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Mock calls</div>
+        <div class="stat-value">3+</div>
+        <div class="stat-note">Pricing segment practice</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Warm lead status</div>
+        <div class="stat-value">Moved</div>
+        <div class="stat-note">Follow-up done in 48h</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Email list built</div>
+        <div class="stat-value">50+</div>
+        <div class="stat-note">Verified prospects</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Videos published</div>
+        <div class="stat-value">1</div>
+        <div class="stat-note">LinkedIn or Instagram</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="stat-label">Meetings target</div>
+        <div class="stat-value">5+</div>
+        <div class="stat-note">Higher quality, better qualified</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-label">Strategic Truth</div>
+    <div class="verdict-title">A strong-to-mid Week 1 — the engine is running.</div>
+    <p class="verdict-body">Seven Elements Design has the product, the founder energy, and now a proven outreach engine. 4 meetings from a 24-message first week is a result most early-stage consultants don't see until month two. The work now is precision — sharper calls, tighter qualification, and a pricing conversation that closes rather than stalls. The pipeline will follow.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Seven Elements Design</strong> · Prepared by Kaizen ASC · Confidential — not for distribution
+</div>
+
+<script>
+// Source chart (donut)
+new Chart(document.getElementById('sourceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Outreach (75%)', 'Ads (25%)'],
+    datasets: [{
+      data: [3, 1],
+      backgroundColor: ['#1a1814', '#b8860b'],
+      borderColor: ['#faf8f4', '#faf8f4'],
+      borderWidth: 3,
+      hoverOffset: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '62%',
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} meeting${ctx.raw > 1 ? 's' : ''}` }
+    }}
+  }
+});
+
+// Ad performance chart
+new Chart(document.getElementById('adChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Impressions', 'Comments'],
+    datasets: [{
+      label: 'Count',
+      data: [6000, 6],
+      backgroundColor: ['#1a1814', '#b8860b'],
+      borderRadius: 3,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        grid: { color: 'rgba(26,24,20,0.06)' },
+        ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } }
+      }
+    }
+  }
+});
+
+// Lead quality chart
+new Chart(document.getElementById('leadChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Warm (active)', 'Passive', 'Lost', 'TBD (from ads)'],
+    datasets: [{
+      label: 'Leads',
+      data: [1, 1, 1, 1],
+      backgroundColor: ['#2d6a4f', '#7a4f00', '#8b2020', '#5f5c56'],
+      borderRadius: 3,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        max: 2,
+        grid: { color: 'rgba(26,24,20,0.06)' },
+        ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 }, stepSize: 1 }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
