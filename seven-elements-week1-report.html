@@ -609,19 +609,19 @@
       <h2 class="section-title">Channel Performance</h2>
     </div>
 
-    <p>Two channels were active this week: direct LinkedIn outreach and LinkedIn paid ads. Both generated results — but at meaningfully different quality levels. Outreach was the dominant lead engine, responsible for 3 of the 4 meetings booked.</p>
+    <p>Two channels were active this week: direct LinkedIn outreach and LinkedIn paid ads. Both generated results — and both contributed equally to meetings booked, with 2 meetings sourced from each channel.</p>
 
     <div class="channel-grid">
       <div class="channel-card">
         <div class="channel-name">LinkedIn Outreach</div>
-        <div class="channel-stat">3 / 4</div>
+        <div class="channel-stat">2 / 4</div>
         <div class="channel-desc">meetings sourced from direct DM outreach</div>
         <div><span class="channel-badge badge-strong">Strong</span></div>
       </div>
       <div class="channel-card">
         <div class="channel-name">LinkedIn Ads</div>
-        <div class="channel-stat">1 / 4</div>
-        <div class="channel-desc">meeting sourced from 6K impressions · 6 comments</div>
+        <div class="channel-stat">2 / 4</div>
+        <div class="channel-desc">meetings sourced from 6K impressions · 6 comments</div>
         <div><span class="channel-badge badge-mid">Mid</span></div>
       </div>
       <div class="channel-card">
@@ -641,8 +641,8 @@
     <div class="chart-wrap" style="margin-top: 24px;">
       <div class="chart-label">Meeting sources — Week 1</div>
       <div class="legend">
-        <span><span class="legend-dot" style="background:#1a1814;"></span>Outreach (75%)</span>
-        <span><span class="legend-dot" style="background:#b8860b;"></span>Ads (25%)</span>
+        <span><span class="legend-dot" style="background:#1a1814;"></span>Outreach (50%)</span>
+        <span><span class="legend-dot" style="background:#b8860b;"></span>Ads (50%)</span>
       </div>
       <div style="position:relative;width:100%;height:220px;">
         <canvas id="sourceChart" role="img" aria-label="Pie chart showing 75% of meetings from outreach and 25% from ads">3 meetings from outreach, 1 from ads.</canvas>
@@ -736,7 +736,7 @@
     </div>
 
     <div class="diagnosis">
-      <p>The funnel is <strong>healthy at the top</strong>. The problem is at the pricing conversation. Calls are converting into meetings but not into proposals because pricing is introduced without sufficient setup — before the value of the product has been fully established in the prospect's mind. This is a call script and sequencing problem, not a pricing problem.</p>
+      <p>Both channels pulled equal weight this week — <strong>2 meetings each from outreach and ads</strong> is a genuinely balanced result for Week 1. The constraint is not reach — it is call quality, pricing conversation, and lead qualification. The gap between pipeline and closed revenue is a systems and communication problem, not a market problem.</p>
     </div>
   </div>
 
@@ -903,9 +903,9 @@
 new Chart(document.getElementById('sourceChart'), {
   type: 'doughnut',
   data: {
-    labels: ['Outreach (75%)', 'Ads (25%)'],
+    labels: ['Outreach (50%)', 'Ads (50%)'],
     datasets: [{
-      data: [3, 1],
+      data: [2, 2],
       backgroundColor: ['#1a1814', '#b8860b'],
       borderColor: ['#faf8f4', '#faf8f4'],
       borderWidth: 3,
