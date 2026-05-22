@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizen Green - Transform Your Agency in 90 Days</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            color: #0a0f1a;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #10b981;
+        }
+
+        .nav-cta {
+            background: #10b981;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(10, 15, 26, 0.95) 0%, rgba(26, 31, 46, 0.95) 100%),
+                        url('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&q=80') center/cover;
+            background-attachment: fixed;
+            padding: 120px 5% 80px;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 .highlight {
+            color: #10b981;
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 900;
+            color: #10b981;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 120px 5%;
+        }
+
+        .section-dark {
+            background: #f9fafb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            font-size: 22px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #10b981;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0a0f1a;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content:first-child {
+            order: 3;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .timeline-content h3 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #10b981;
+        }
+
+        .timeline-content p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .timeline-number {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .tools-section {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .tools-value {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 30px 0;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tool-card h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .tool-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        .founder-section {
+            padding: 120px 5%;
+            background: #f9fafb;
+        }
+
+        .founder-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .founder-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            color: white;
+            font-weight: 900;
+        }
+
+        .founder-text h2 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .founder-text h3 {
+            font-size: 24px;
+            color: #10b981;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .founder-text p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .linkedin-btn {
+            display: inline-block;
+            background: #0077b5;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .linkedin-btn:hover {
+            background: #005885;
+            transform: translateY(-2px);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #0a0f1a, #1a1f2e);
+            padding: 100px 5%;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 20px 50px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .cta-primary:hover {
+            background: #059669;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
+        }
+
+        .form-section {
+            padding: 120px 5%;
+            background: white;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #f9fafb;
+            padding: 60px;
+            border-radius: 20px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .form-container h2 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-container .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0a0f1a;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: #0a0f1a;
+            color: white;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content:first-child {
+                order: 1;
+            }
+
+            .timeline-number {
+                margin: 0 auto;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .founder-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .founder-image {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-cta {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 100px 5% 60px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .section {
+                padding: 80px 5%;
+            }
+
+            .section-header h2 {
+                font-size: 36px;
+            }
+
+            .section-header p {
+                font-size: 18px;
+            }
+
+            .stat-number {
+                font-size: 40px;
+            }
+
+            .tools-value {
+                font-size: 48px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .founder-text h2 {
+                font-size: 32px;
+            }
+
+            .form-container {
+                padding: 40px 30px;
+            }
+
+            .cta-section h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Kaizen Green</div>
+        <a href="#apply" class="nav-cta">Apply Now</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">🚀 90-DAY TRANSFORMATION PROGRAM</div>
+            <h1>Scale Your Marketing Agency to <span class="highlight">₹10 Lakhs/Month</span> in 90 Days</h1>
+            <p>Get proven systems, high-ticket funnels, and ₹1 Lakh worth of tools to transform your agency from feast-or-famine to predictable revenue machine.</p>
+            <a href="#apply" class="cta-primary">Start Your Transformation →</a>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">90</span>
+                    <span class="stat-label">Days to Transform</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">₹1L</span>
+                    <span class="stat-label">Tools Included Free</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">3.4x</span>
+                    <span class="stat-label">Average Revenue Growth</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>What You Get in Kaizen Green</h2>
+                <p>Everything your agency needs to book high-ticket clients and scale predictably</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>High-Ticket Positioning</h3>
+                    <p>Transform from commodity agency to premium partner. We'll help you craft an irresistible offer that clients happily pay ₹50K-1L+ for.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Lead Generation System</h3>
+                    <p>Get qualified leads flowing consistently. We build your entire inbound funnel—from content to conversion—that generates 20-50 leads monthly.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Sales & Closing Framework</h3>
+                    <p>Learn our proven sales system that converts 30-40% of qualified leads into paying clients at premium prices.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Automation & Tools</h3>
+                    <p>₹1 Lakh worth of tools and templates—CRM setup, email sequences, proposal templates, and tracking dashboards.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Data-Driven Analytics</h3>
+                    <p>Track every metric that matters. Know your CAC, LTV, conversion rates, and exactly where to optimize for maximum ROI.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Weekly Coaching Calls</h3>
+                    <p>Direct access to Sahil and the Kaizen team. Get your questions answered, funnels reviewed, and strategy refined weekly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your 90-Day Roadmap</h2>
+                <p>The exact system we use to transform agencies</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Month 1: Foundation</h3>
+                        <p>Build your high-ticket offer, refine positioning, create irresistible packages, set up tracking systems, and launch your lead generation funnel.</p>
+                    </div>
+                    <div class="timeline-number">1</div>
+                    <div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div></div>
+                    <div class="timeline-number">2</div>
+                    <div class="timeline-content">
+                        <h3>Month 2: Acceleration</h3>
+                        <p>Scale lead generation, optimize conversion rates, implement sales systems, refine pitch and proposals, and close your first high-ticket clients.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Month 3: Optimization</h3>
+                        <p>Maximize profitability, automate operations, build referral systems, scale what works, and establish predictable ₹10L/month revenue.</p>
+                    </div>
+                    <div class="timeline-number">3</div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools-section">
+        <div class="container">
+            <h2>₹1 Lakh Worth of Tools & Templates</h2>
+            <p style="font-size: 20px; margin-top: 20px; opacity: 0.95;">Included free with Kaizen Green</p>
+            <div class="tools-value">₹1,00,000</div>
+
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h4>CRM System</h4>
+                    <p class="tool-price">₹18,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Email Automation</h4>
+                    <p class="tool-price">₹15,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Proposal Templates</h4>
+                    <p class="tool-price">₹12,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Landing Page Builder</h4>
+                    <p class="tool-price">₹14,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Analytics Dashboard</h4>
+                    <p class="tool-price">₹10,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Content Calendar</h4>
+                    <p class="tool-price">₹8,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Sales Scripts</h4>
+                    <p class="tool-price">₹12,000</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Lead Magnets Pack</h4>
+                    <p class="tool-price">₹11,000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="founder-section">
+        <div class="container">
+            <div class="founder-content">
+                <div class="founder-image">S</div>
+                <div class="founder-text">
+                    <h2>Meet Your Guide</h2>
+                    <h3>Sahil Sinha</h3>
+                    <p>Data Analytics Expert from IIT Bombay with a proven track record of helping agencies scale from ₹3L to ₹10L+ monthly revenue using data-driven strategies.</p>
+                    <p>Sahil has worked with 50+ agencies across India, helping them build high-ticket funnels, optimize conversions, and achieve predictable growth through analytics and proven systems.</p>
+                    <p>His approach combines IIT-level analytical rigor with real-world agency experience—no fluff, just results.</p>
+                    <a href="https://www.linkedin.com/in/sahil-sinha-1b4745380/" target="_blank" class="linkedin-btn">Connect on LinkedIn →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Agency?</h2>
+            <p>Join Kaizen Green and build a ₹10 Lakh/month agency in the next 90 days</p>
+            <a href="#apply" class="cta-primary">Apply for Kaizen Green →</a>
+        </div>
+    </section>
+
+    <section class="form-section" id="apply">
+        <div class="form-container">
+            <h2>Apply for Kaizen Green</h2>
+            <p class="subtitle">Fill out this form and we'll get back to you within 24 hours</p>
+
+            <form action="https://formsubmit.co/kaizenasc@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Kaizen Green Application">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://kaizenasc.com/thank-you">
+
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="agency">Agency Name *</label>
+                    <input type="text" id="agency" name="agency" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="revenue">Current Monthly Revenue *</label>
+                    <input type="text" id="revenue" name="revenue" required placeholder="e.g., ₹3 Lakhs">
+                </div>
+
+                <div class="form-group">
+                    <label for="challenges">What's your biggest challenge right now? *</label>
+                    <textarea id="challenges" name="challenges" required placeholder="Tell us about your main struggle..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Kaizen ASC. All rights reserved.</p>
+        <p style="margin-top: 10px;">Transforming agencies through data and proven systems.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
