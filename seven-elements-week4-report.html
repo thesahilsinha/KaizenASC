@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seven Elements Design — Week 4 Outreach Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #3d3a34;
+    --ink-soft: #6b6760;
+    --ink-mute: #9e9b96;
+    --cream: #faf8f4;
+    --cream-dark: #f2efe9;
+    --cream-mid: #e8e4dc;
+    --gold: #b8860b;
+    --gold-light: #d4a82a;
+    --gold-pale: #f5edcc;
+    --green: #2d6a4f;
+    --green-pale: #d8f3e6;
+    --red: #8b2020;
+    --red-pale: #fde8e8;
+    --amber: #7a4f00;
+    --amber-pale: #fff3d6;
+    --border: rgba(26,24,20,0.1);
+    --border-med: rgba(26,24,20,0.18);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+
+  .cover {
+    background: var(--ink); color: var(--cream);
+    padding: 80px 64px 64px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 420px; height: 420px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .cover::after {
+    content: ''; position: absolute; bottom: -100px; left: -40px;
+    width: 280px; height: 280px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(184,134,11,0.2); border: 1px solid rgba(184,134,11,0.35);
+    color: var(--gold-light); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 2px; margin-bottom: 20px;
+  }
+  .cover-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 28px;
+  }
+  .cover-title {
+    font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700; line-height: 1.1; color: #fff; margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 400; color: rgba(255,255,255,0.55); margin-bottom: 56px; font-style: italic;
+  }
+  .cover-meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 36px;
+  }
+  .cover-meta-item label {
+    display: block; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px;
+  }
+  .cover-meta-item span { font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* RED WARNING BANNER */
+  .momentum-banner {
+    background: var(--red); color: #fff;
+    padding: 14px 32px; font-size: 13px; letter-spacing: 0.04em;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .momentum-banner strong { font-weight: 600; }
+  .momentum-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.7); flex-shrink: 0; }
+
+  .report-body { max-width: 860px; margin: 0 auto; padding: 0 32px 80px; }
+
+  .toc { padding: 48px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 64px; }
+  .toc-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 24px; }
+  .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 40px; }
+  .toc-list li { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--ink-mid); }
+  .toc-num { font-family: var(--font-display); font-size: 11px; color: var(--gold); font-weight: 600; min-width: 20px; }
+
+  .section { margin-bottom: 72px; }
+  .section-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+  }
+  .section-num { font-family: var(--font-display); font-size: 13px; color: var(--gold); font-weight: 600; padding-top: 5px; min-width: 28px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(22px, 3vw, 30px); font-weight: 600; line-height: 1.2; color: var(--ink); }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 36px; }
+  .stat-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 20px 18px; }
+  .stat-card.highlight { background: var(--ink); border-color: var(--ink); }
+  .stat-card.highlight .stat-label { color: rgba(255,255,255,0.5); }
+  .stat-card.highlight .stat-value { color: #fff; }
+  .stat-card.highlight .stat-note  { color: rgba(255,255,255,0.4); }
+  .stat-card.good { background: var(--green-pale); border-color: rgba(45,106,79,0.2); }
+  .stat-card.good .stat-label { color: var(--green); }
+  .stat-card.good .stat-value { color: var(--green); }
+  .stat-card.good .stat-note  { color: rgba(45,106,79,0.6); }
+  .stat-card.amber { background: var(--amber-pale); border-color: rgba(122,79,0,0.2); }
+  .stat-card.amber .stat-label { color: var(--amber); }
+  .stat-card.amber .stat-value { color: var(--amber); }
+  .stat-card.amber .stat-note  { color: rgba(122,79,0,0.6); }
+  .stat-card.bad { background: var(--red-pale); border-color: rgba(139,32,32,0.2); }
+  .stat-card.bad .stat-label { color: var(--red); }
+  .stat-card.bad .stat-value { color: var(--red); }
+  .stat-card.bad .stat-note  { color: rgba(139,32,32,0.5); }
+  .stat-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+  .stat-value { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .stat-note { font-size: 11px; color: var(--ink-mute); }
+
+  .diagnosis {
+    background: var(--ink); color: var(--cream);
+    padding: 32px 36px; border-radius: 4px; margin: 36px 0; position: relative;
+  }
+  .diagnosis::before {
+    content: '"'; font-family: var(--font-display); font-size: 120px; line-height: 0.8;
+    color: rgba(255,255,255,0.06); position: absolute; top: 20px; left: 24px; pointer-events: none;
+  }
+  .diagnosis p { font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.88); position: relative; }
+  .diagnosis strong { color: var(--gold-light); font-weight: 500; }
+  .diagnosis.red-theme { background: var(--red); }
+  .diagnosis.red-theme p { color: rgba(255,255,255,0.92); }
+  .diagnosis.amber-theme { background: var(--amber); }
+  .diagnosis.amber-theme p { color: rgba(255,255,255,0.92); }
+
+  .chart-wrap { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 28px 24px; margin: 28px 0; }
+  .chart-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 16px; }
+
+  /* 4-WEEK TRACKER */
+  .tracker-row {
+    display: grid; grid-template-columns: 140px 1fr 1fr 1fr 1fr;
+    gap: 1px; background: var(--border); margin-bottom: 1px;
+  }
+  .tracker-cell {
+    background: var(--cream-dark); padding: 14px 16px;
+    font-size: 13px; color: var(--ink-mid);
+  }
+  .tracker-cell.head {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft); background: var(--cream-mid);
+  }
+  .tracker-cell.metric-name { font-weight: 600; color: var(--ink); }
+  .tracker-cell.best { background: var(--green-pale); color: var(--green); font-weight: 600; }
+  .tracker-cell.worst { background: var(--red-pale); color: var(--red); }
+  .tracker-cell.mid { background: var(--amber-pale); color: var(--amber); }
+
+  /* ISSUE / DELAY CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--cream-dark); border: 1px solid var(--border);
+    border-radius: 4px; padding: 16px 18px;
+  }
+  .check-item.done { border-left: 3px solid var(--green); }
+  .check-item.pending { border-left: 3px solid var(--amber); }
+  .check-item.blocked { border-left: 3px solid var(--red); }
+  .check-icon { font-size: 16px; min-width: 24px; padding-top: 1px; }
+  .check-content h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .check-content p  { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* WEEK 5 GRID */
+  .w4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+  @media (max-width: 520px) { .w4-grid { grid-template-columns: 1fr; } }
+  .w4-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 20px; }
+  .w4-card.gold-card { background: var(--gold-pale); border-color: rgba(184,134,11,0.25); }
+  .w4-icon { font-size: 22px; margin-bottom: 10px; }
+  .w4-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .w4-desc  { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
+  .channel-badge {
+    display: inline-block; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 2px; margin-top: 10px; font-weight: 600;
+  }
+  .badge-strong { background: var(--green-pale); color: var(--green); }
+  .badge-mid    { background: var(--amber-pale); color: var(--amber); }
+  .badge-gold   { background: var(--gold-pale); color: var(--amber); }
+  .badge-red    { background: var(--red-pale); color: var(--red); }
+
+  /* METER */
+  .meter-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .meter-label { font-size: 13px; color: var(--ink-mid); min-width: 160px; }
+  .meter-track { flex: 1; height: 8px; background: var(--cream-mid); border-radius: 4px; overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 4px; }
+  .meter-val  { font-size: 12px; color: var(--ink-soft); min-width: 48px; text-align: right; }
+
+  .verdict {
+    background: var(--cream-dark); border: 1px solid var(--border-med);
+    border-radius: 4px; padding: 40px 36px; text-align: center; margin-top: 64px;
+  }
+  .verdict-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 16px; }
+  .verdict-title { font-family: var(--font-display); font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
+  .verdict-body { font-size: 15px; color: var(--ink-mid); line-height: 1.8; max-width: 560px; margin: 0 auto; }
+
+  .divider { width: 40px; height: 2px; background: var(--gold); margin: 20px 0 28px; }
+  p { color: var(--ink-mid); line-height: 1.8; }
+  p + p { margin-top: 14px; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; color: var(--ink-soft); }
+  .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; }
+
+  .footer { background: var(--ink); color: rgba(255,255,255,0.4); text-align: center; padding: 28px 32px; font-size: 12px; letter-spacing: 0.06em; }
+  .footer strong { color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Kaizen ASC · Confidential</div>
+  <div class="cover-eyebrow">Outreach Assessment Report · Week 4</div>
+  <div class="cover-title">Seven Elements<br>Design</div>
+  <div class="cover-subtitle">Underdelivered — Delays & Underperformance Demand a Reset</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><label>Client</label><span>Seven Elements Design</span></div>
+    <div class="cover-meta-item"><label>Decision Maker</label><span>Mugdha Joshi, Founder</span></div>
+    <div class="cover-meta-item"><label>Channels Active</label><span>Cold Email + LinkedIn InMail + Video Ad</span></div>
+    <div class="cover-meta-item"><label>Prepared by</label><span>Kaizen ASC</span></div>
+    <div class="cover-meta-item"><label>Period</label><span>Week 4</span></div>
+    <div class="cover-meta-item"><label>Product</label><span>Brand Strategy + Logo · ₹45K</span></div>
+  </div>
+</div>
+
+<!-- WARNING BANNER -->
+<div class="momentum-banner">
+  <div class="momentum-dot"></div>
+  <div><strong>Execution fell short.</strong> Email volume dropped, open rate regressed, the newsletter was delayed, the second ad stalled, and the video ad generated zero calls despite 2,000+ impressions. Week 5 must compensate across every front.</div>
+</div>
+
+<div class="report-body">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span> Week 4 Snapshot</li>
+      <li><span class="toc-num">02</span> Email Campaign Performance</li>
+      <li><span class="toc-num">03</span> Ad Performance — Video & Second Ad</li>
+      <li><span class="toc-num">04</span> Delayed Executions</li>
+      <li><span class="toc-num">05</span> Mail Tool — Now Live</li>
+      <li><span class="toc-num">06</span> 4-Week Progress Tracker</li>
+      <li><span class="toc-num">07</span> Week 5 Recovery Plan</li>
+    </ul>
+  </div>
+
+  <!-- 01 SNAPSHOT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Week 4 Snapshot</h2>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card bad">
+        <div class="stat-label">Cold Emails Sent</div>
+        <div class="stat-value">79</div>
+        <div class="stat-note">↓ 28% from Week 3's 110</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-label">Email Open Rate</div>
+        <div class="stat-value">35%</div>
+        <div class="stat-note">↓ from 45% in Week 3</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-label">Emails Opened</div>
+        <div class="stat-value">~28</div>
+        <div class="stat-note">35% of 79 sent</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">LinkedIn InMails Sent</div>
+        <div class="stat-value">14</div>
+        <div class="stat-note">Of 30 available credits</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">Video Ad Impressions</div>
+        <div class="stat-value">2K+</div>
+        <div class="stat-note">0 calls generated</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-label">Meetings Booked</div>
+        <div class="stat-value">0</div>
+        <div class="stat-note">No conversions this week</div>
+      </div>
+    </div>
+
+    <div class="diagnosis red-theme">
+      <p>Week 4 was the week the campaign was supposed to fire on all fronts. Instead, <strong>email volume dropped, open rates slid back, the newsletter was not deployed, and the second ad remains in process.</strong> The video ad reached 2,000+ people but produced no actionable response. This is not a week to spin — it is a week to diagnose clearly and correct hard. However, the mail tool is now fully live at 1,400 customised emails per week, and the Instagram outreach list is ready. Week 5 has no room for further delay.</p>
+    </div>
+  </div>
+
+  <!-- 02 EMAIL PERFORMANCE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Email Campaign Performance</h2>
+    </div>
+
+    <p>After the volume surge in Week 3, email activity retreated in Week 4 — both in volume and quality. 79 emails against a target of 100+ represents a meaningful shortfall, and the open rate regression to 35% suggests either list fatigue on the current segment or a subject line that underperformed relative to the Week 3 copy.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-label">Email performance trend — Weeks 1 to 4</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#1a1814;"></span>Emails Sent</span>
+        <span><span class="legend-dot" style="background:#b8860b;"></span>Open Rate %</span>
+      </div>
+      <div style="position:relative;width:100%;height:240px;">
+        <canvas id="emailTrendChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-label">Week 4 email funnel</div>
+      <div style="position:relative;width:100%;height:200px;">
+        <canvas id="w4FunnelChart"></canvas>
+      </div>
+    </div>
+
+    <p>Week 3 produced 50 opened emails from 110 sent. Week 4 produced only ~28 from 79 — a significant contraction in absolute reach. The pipeline of contacts in deep follow-up (built from Weeks 1–3) remains the most valuable asset right now and must be actively worked in Week 5 with personalised close attempts.</p>
+  </div>
+
+  <!-- 03 ADS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Ad Performance — Video & Second Ad</h2>
+    </div>
+
+    <p>The video ad went live as planned and reached over 2,000 people — a meaningful reach milestone for the campaign. However, impressions without any calls generated signals a disconnect between the creative or targeting and the intended action. Reach is not impact. The second ad remains in process, stalled on audience filter refinement.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card amber">
+        <div class="stat-label">Video Ad Impressions</div>
+        <div class="stat-value">2,000+</div>
+        <div class="stat-note">Ad ran successfully</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-label">Calls Generated</div>
+        <div class="stat-value">0</div>
+        <div class="stat-note">Zero conversion from video</div>
+      </div>
+      <div class="stat-card bad">
+        <div class="stat-label">Second Ad Status</div>
+        <div class="stat-value">Pending</div>
+        <div class="stat-note">Audience filter under review</div>
+      </div>
+    </div>
+
+    <div class="diagnosis red-theme">
+      <p>2,000+ impressions with zero calls is a targeting or creative signal problem — <strong>the ad is reaching people, but not the right people, or the CTA is not compelling enough to act.</strong> Before the second ad goes live, audience filters must be tightened: geography, industry, company size, and decision-maker job title should all be explicitly defined. The video ad should also be reviewed — the hook (first 3 seconds) and the CTA (end card or caption) are the two most likely failure points. Running more spend without fixing these will multiply the same zero-conversion result.</p>
+    </div>
+  </div>
+
+  <!-- 04 DELAYED EXECUTIONS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Delayed Executions</h2>
+    </div>
+
+    <p>Two planned Week 4 actions were not executed — the newsletter mail strategy and the second ad launch. Both are now carried into Week 5 as outstanding items that cannot slip again. Below is the full Week 4 delivery status.</p>
+
+    <div class="checklist">
+      <div class="check-item done">
+        <div class="check-icon">✓</div>
+        <div class="check-content">
+          <h4>Cold email — sent (below target)</h4>
+          <p>79 emails sent. Volume target was 100+. Open rate regressed to 35% from Week 3's 45%. Partial execution with quality drop.</p>
+        </div>
+      </div>
+      <div class="check-item done">
+        <div class="check-icon">✓</div>
+        <div class="check-content">
+          <h4>Video ad — live, 2K+ impressions</h4>
+          <p>Reached over 2,000 people. Zero calls generated. Targeting and CTA require review before further spend.</p>
+        </div>
+      </div>
+      <div class="check-item done">
+        <div class="check-icon">✓</div>
+        <div class="check-content">
+          <h4>Mail tool — deployed and operational</h4>
+          <p>The Seven Elements bulk mailer is live at <a href="https://sevenelements-mail.vercel.app/" target="_blank" style="color:var(--green);font-weight:600;">sevenelements-mail.vercel.app</a> — access code <strong style="color:var(--ink);">777777</strong>. Capable of 200 personalised emails per day, <strong style="color:var(--ink);">1,400 per week</strong>. Google App Password setup is the only remaining configuration step before full deployment.</p>
+        </div>
+      </div>
+      <div class="check-item blocked">
+        <div class="check-icon">✕</div>
+        <div class="check-content">
+          <h4>Newsletter mail strategy — not deployed</h4>
+          <p>Blocked by technical delay. Carried into Week 5 as a mandatory first-day execution item. Cannot be delayed again.</p>
+        </div>
+      </div>
+      <div class="check-item blocked">
+        <div class="check-icon">✕</div>
+        <div class="check-content">
+          <h4>Second ad — not launched</h4>
+          <p>Stalled on audience filter refinement. Audience must be locked before Week 5 begins — better targeting is the prerequisite, not an excuse for indefinite delay.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 MAIL TOOL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Mail Tool — Now Live</h2>
+    </div>
+
+    <p>The Seven Elements bulk mailer is fully deployed and represents the single most significant infrastructure win of the campaign so far. At 200 personalised emails per day, this tool enables a scale of outreach that was not previously possible — and every email it sends is customised, not a batch blast.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card good">
+        <div class="stat-label">Daily Send Limit</div>
+        <div class="stat-value">200</div>
+        <div class="stat-note">Personalised emails per day</div>
+      </div>
+      <div class="stat-card good">
+        <div class="stat-label">Weekly Capacity</div>
+        <div class="stat-value">1,400</div>
+        <div class="stat-note">7-day rolling send volume</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">Remaining Setup</div>
+        <div class="stat-value">1 Step</div>
+        <div class="stat-note">Google App Password required</div>
+      </div>
+    </div>
+
+    <div class="diagnosis" style="margin-top: 0;">
+      <p>
+        <strong>Access the tool:</strong> <a href="https://sevenelements-mail.vercel.app/" target="_blank" style="color:var(--gold-light);text-decoration:underline;">sevenelements-mail.vercel.app</a><br>
+        <strong style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;">Access Code:</strong> <strong style="letter-spacing:0.15em;">777777</strong><br><br>
+        The only remaining step before full operation is adding a <strong>Google App Password</strong> — a one-time configuration that authorises the tool to send from the Seven Elements Gmail account. Once added, Week 5's 1,400-email capacity is immediately unlocked. The Instagram outreach list is also ready to deploy in parallel, giving the campaign two simultaneous high-volume channels for the first time.
+      </p>
+    </div>
+  </div>
+
+  <!-- 06 4-WEEK TRACKER -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">4-Week Progress Tracker</h2>
+    </div>
+
+    <p>The four-week arc shows clear momentum through Week 3, followed by a visible regression in Week 4 across volume, open rate, and meetings. Week 5 must reverse this trajectory across every metric simultaneously.</p>
+
+    <div style="margin-top: 24px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden;">
+      <div class="tracker-row">
+        <div class="tracker-cell head metric-name">Metric</div>
+        <div class="tracker-cell head">Week 1</div>
+        <div class="tracker-cell head">Week 2</div>
+        <div class="tracker-cell head">Week 3</div>
+        <div class="tracker-cell head">Week 4</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">LinkedIn Outreach</div>
+        <div class="tracker-cell best">24 messages</div>
+        <div class="tracker-cell worst">8 messages</div>
+        <div class="tracker-cell mid">42 follow reqs</div>
+        <div class="tracker-cell mid">14 InMails</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Emails Sent</div>
+        <div class="tracker-cell mid">—</div>
+        <div class="tracker-cell mid">60</div>
+        <div class="tracker-cell best">110</div>
+        <div class="tracker-cell worst">79</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Open Rate</div>
+        <div class="tracker-cell mid">—</div>
+        <div class="tracker-cell mid">35%</div>
+        <div class="tracker-cell best">45%</div>
+        <div class="tracker-cell worst">35%</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Meetings Booked</div>
+        <div class="tracker-cell best">4</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell mid">Pipeline building</div>
+        <div class="tracker-cell worst">0</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Ad Impressions</div>
+        <div class="tracker-cell mid">6K</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell mid">Week 4 ready</div>
+        <div class="tracker-cell mid">2K+ (video)</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Video Content</div>
+        <div class="tracker-cell worst">0</div>
+        <div class="tracker-cell worst">0</div>
+        <div class="tracker-cell mid">Ready to publish</div>
+        <div class="tracker-cell best">Live — 2K+ reach</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Newsletter</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">Not deployed</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Mail Tool</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell best">Live · 1,400/wk</div>
+      </div>
+      <div class="tracker-row">
+        <div class="tracker-cell metric-name">Instagram Outreach</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell worst">—</div>
+        <div class="tracker-cell mid">List ready · W5</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-top:28px;">
+      <div class="chart-label">Email volume & open rate — 4-week comparison</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#1a1814;"></span>Emails Sent</span>
+        <span><span class="legend-dot" style="background:#b8860b;"></span>Open Rate %</span>
+      </div>
+      <div style="position:relative;width:100%;height:240px;">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 WEEK 5 PLAN -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Week 5 Recovery Plan</h2>
+    </div>
+
+    <p>Week 5 is a recovery and escalation week. Every delayed item from Week 4 executes on day one. New channels — cold calls, Instagram outreach, and LinkedIn ads — activate in parallel. The mail tool is live, which means newsletter deployment has no remaining technical blocker. This is the week the campaign either regains momentum or confirms a structural problem.</p>
+
+    <div class="w4-grid">
+      <div class="w4-card gold-card">
+        <div class="w4-icon">📞</div>
+        <div class="w4-title">Cold Calls — Warm Prospects First</div>
+        <div class="w4-desc">Prioritise contacts who have opened emails 2+ times. A call backed by prior email context converts at 3–4x the rate of a fully cold call. Keep calls brief, specific, and outcome-focused — one clear ask per call.</div>
+        <div><span class="channel-badge badge-gold">New channel</span></div>
+      </div>
+      <div class="w4-card gold-card">
+        <div class="w4-icon">📱</div>
+        <div class="w4-title">Instagram Outreach — List Ready, Deploy Now</div>
+        <div class="w4-desc">The Instagram outreach list is compiled and ready. This channel activates in Week 5 — DMs targeting founders and brand managers whose businesses show visual identity gaps. Every message should reference something specific from their feed. The list is ready; execution is the only variable.</div>
+        <div><span class="channel-badge badge-gold">List ready · new channel</span></div>
+      </div>
+      <div class="w4-card">
+        <div class="w4-icon">💼</div>
+        <div class="w4-title">LinkedIn Ads — Launch</div>
+        <div class="w4-desc">LinkedIn ads go live in Week 5 with tightly defined audience filters: industry, company size, job title, and geography locked before spend begins. Do not replicate the video ad's targeting — use the 2K-impression data to narrow the audience before scaling.</div>
+        <div><span class="channel-badge badge-mid">Paid activation</span></div>
+      </div>
+      <div class="w4-card">
+        <div class="w4-icon">📰</div>
+        <div class="w4-title">Newsletter — Deploy Day One</div>
+        <div class="w4-desc">The mail tool is live. The newsletter has no remaining blocker. It deploys in the first 24 hours of Week 5 — not mid-week, not "when ready." This channel has been delayed two weeks and the list has been waiting unused.</div>
+        <div><span class="channel-badge badge-red">Overdue — priority</span></div>
+      </div>
+      <div class="w4-card">
+        <div class="w4-icon">📧</div>
+        <div class="w4-title">Cold Email — Scale to 1,400/Week via Mail Tool</div>
+        <div class="w4-desc">With the mail tool live at 200 emails/day, Week 5 can send 1,400 fully personalised emails — a 12× increase on Week 4's 79. Subject lines should be A/B tested against Week 3's 45% open rate to recover from this week's regression before scaling at full capacity.</div>
+        <div><span class="channel-badge badge-strong">1,400 capacity unlocked</span></div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-top:28px;">
+      <div class="chart-label">Week 5 channel activation plan</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#2d6a4f;"></span>Active Week 5</span>
+        <span><span class="legend-dot" style="background:#8b2020;"></span>Delayed carry-over</span>
+      </div>
+      <div style="position:relative;width:100%;height:240px;">
+        <canvas id="w5StatusChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-label">The Week 4 Read</div>
+    <div class="verdict-title">The pipeline held. The execution did not.</div>
+    <p class="verdict-body">Week 4 was the campaign's first real setback — volume down, open rate down, newsletter not deployed, second ad stalled, and zero meetings booked. The video ad reached people but did not move them. The mail tool going live at 1,400 customised emails per week and the Instagram outreach list being ready are the two clean wins. Week 5 is not a continuation — it is a course correction. Cold calls, Instagram, LinkedIn ads, a live newsletter, and the mail tool at full capacity must all activate together. There is no soft landing from here.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Seven Elements Design</strong> · Prepared by Kaizen ASC · Week 4 Assessment · Confidential — not for distribution
+</div>
+
+<script>
+// 4-week email trend
+const ctx1 = document.getElementById('emailTrendChart');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [
+      {
+        label: 'Emails Sent',
+        data: [0, 60, 110, 79],
+        backgroundColor: ['rgba(26,24,20,0.15)', 'rgba(26,24,20,0.4)', '#1a1814', '#8b2020'],
+        borderRadius: 4,
+        borderSkipped: false,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        label: 'Open Rate %',
+        data: [null, 35, 45, 35],
+        type: 'line',
+        borderColor: '#b8860b',
+        backgroundColor: 'transparent',
+        pointBackgroundColor: ['#fff', '#fff', '#fff', '#8b2020'],
+        pointBorderColor: '#b8860b',
+        pointBorderWidth: 2,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        tension: 0.4,
+        yAxisID: 'y1',
+        fill: false,
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          color: '#6b6760',
+          font: { family: 'DM Sans', size: 12 },
+          boxWidth: 12, boxHeight: 12, padding: 20, usePointStyle: true
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label === 'Open Rate %'
+            ? ` Open Rate: ${ctx.raw}%`
+            : ` Emails Sent: ${ctx.raw}`
+        }
+      }
+    },
+    scales: {
+      y: {
+        position: 'left',
+        grid: { color: 'rgba(26,24,20,0.06)' },
+        ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } },
+        beginAtZero: true
+      },
+      y1: {
+        position: 'right',
+        grid: { display: false },
+        min: 0, max: 80,
+        ticks: {
+          color: '#b8860b',
+          font: { family: 'DM Sans', size: 12 },
+          callback: v => v + '%',
+          stepSize: 20
+        }
+      },
+      x: { grid: { display: false }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 13 } } }
+    }
+  }
+});
+
+// W4 email funnel
+new Chart(document.getElementById('w4FunnelChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Sent', 'Opened (~35%)', 'Deep Pipeline (W1–W3)'],
+    datasets: [{
+      data: [79, 28, 30],
+      backgroundColor: ['#8b2020', '#b8860b', '#2d6a4f'],
+      borderRadius: 3,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(26,24,20,0.06)' }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } } },
+      y: { grid: { display: false }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } } }
+    }
+  }
+});
+
+// 4-week trend (section 06)
+new Chart(document.getElementById('trendChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [
+      {
+        label: 'Emails Sent',
+        data: [0, 60, 110, 79],
+        backgroundColor: ['rgba(26,24,20,0.15)', 'rgba(26,24,20,0.4)', '#1a1814', '#8b2020'],
+        borderRadius: 4,
+        borderSkipped: false,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        label: 'Open Rate %',
+        data: [null, 35, 45, 35],
+        type: 'line',
+        borderColor: '#b8860b',
+        backgroundColor: 'transparent',
+        pointBackgroundColor: ['#fff','#fff','#fff','#8b2020'],
+        pointBorderColor: '#b8860b',
+        pointBorderWidth: 2,
+        pointRadius: 6,
+        tension: 0.4,
+        yAxisID: 'y1',
+        fill: false,
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        display: true, position: 'bottom',
+        labels: { color: '#6b6760', font: { family: 'DM Sans', size: 12 }, boxWidth: 12, boxHeight: 12, padding: 20, usePointStyle: true }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label === 'Open Rate %' ? ` Open Rate: ${ctx.raw}%` : ` Emails Sent: ${ctx.raw}`
+        }
+      }
+    },
+    scales: {
+      y: { position: 'left', grid: { color: 'rgba(26,24,20,0.06)' }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 12 } }, beginAtZero: true },
+      y1: { position: 'right', grid: { display: false }, min: 0, max: 80, ticks: { color: '#b8860b', font: { family: 'DM Sans', size: 12 }, callback: v => v + '%', stepSize: 20 } },
+      x: { grid: { display: false }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 13 } } }
+    }
+  }
+});
+
+// W5 channel activation
+new Chart(document.getElementById('w5StatusChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Cold Calls', 'Instagram DMs', 'LinkedIn Ads', 'Newsletter', 'Cold Email (1,400/wk)'],
+    datasets: [
+      {
+        label: 'Active Week 5',
+        data: [1, 1, 1, 0, 1],
+        backgroundColor: '#2d6a4f',
+        borderRadius: 3,
+        borderSkipped: false
+      },
+      {
+        label: 'Delayed carry-over',
+        data: [0, 0, 0, 1, 0],
+        backgroundColor: '#8b2020',
+        borderRadius: 3,
+        borderSkipped: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label === 'Delayed carry-over' ? 'Carry-over from Week 4' : 'New in Week 5'
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#6b6760', font: { family: 'DM Sans', size: 11 } }, stacked: true },
+      y: { display: false, max: 1.5, stacked: true }
+    }
+  }
+});
+</script>
+</body>
+</html>
