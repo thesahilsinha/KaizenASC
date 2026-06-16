@@ -1,0 +1,663 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap');
+  :root {
+    --dg: #14181f;
+    --dg2: #0b0e13;
+    --dg3: #2a3442;
+    --dg4: #b9762f;
+    --dg5: #e0a058;
+    --lg: #fdf3e9;
+    --lg2: #f3dcc1;
+    --gold: #e0a058;
+    --offwhite: #f8f7f5;
+    --text: #14181f;
+    --muted: #6b6258;
+    --border: rgba(20,24,31,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--offwhite); }
+  .report { font-family: 'DM Sans', sans-serif; color: var(--text); max-width: 900px; margin: 0 auto; background: white; }
+
+  .cover { background: var(--dg2); padding: 60px 64px 48px; position: relative; overflow: hidden; }
+  .cover::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; border: 1px solid rgba(224,160,88,0.18); }
+  .cover::after { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; border: 1px solid rgba(224,160,88,0.12); }
+  .cover-eyebrow { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+  .cover-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: white; line-height: 1.15; margin-bottom: 10px; }
+  .cover-subtitle { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300; margin-bottom: 36px; }
+  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .cover-meta-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .cover-meta-value { font-size: 14px; color: rgba(255,255,255,0.8); font-weight: 400; }
+  .cover-line { width: 48px; height: 2px; background: var(--gold); margin-bottom: 28px; }
+
+  .toc { background: var(--lg); padding: 36px 64px; border-bottom: 1px solid var(--border); }
+  .toc-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 40px; }
+  .toc-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--dg3); padding: 6px 0; border-bottom: 0.5px solid rgba(20,24,31,0.1); }
+  .toc-num { font-size: 11px; color: var(--gold); font-weight: 500; min-width: 20px; }
+
+  .section { padding: 48px 64px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+  .section-num { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 500; color: var(--dg2); }
+  .section-rule { width: 100%; height: 0.5px; background: var(--border); margin-bottom: 28px; }
+
+  .intro-text { font-size: 15px; line-height: 1.75; color: var(--muted); max-width: 680px; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin: 24px 0; }
+  .metric-card { background: var(--dg2); border-radius: 10px; padding: 20px 18px; }
+  .metric-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .metric-value { font-family: 'Playfair Display', serif; font-size: 26px; color: white; font-weight: 400; line-height: 1; margin-bottom: 4px; }
+  .metric-sub { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+  .highlight-box { background: var(--lg); border-left: 3px solid var(--dg4); border-radius: 0 8px 8px 0; padding: 18px 22px; margin: 20px 0; font-size: 14px; line-height: 1.7; color: var(--dg2); }
+  .highlight-box strong { font-weight: 500; color: var(--dg2); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .card { background: var(--offwhite); border: 0.5px solid var(--border); border-radius: 10px; padding: 20px; }
+  .card-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; font-weight: 500; }
+  .card-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .tag { font-size: 12px; padding: 5px 12px; border-radius: 20px; font-weight: 400; }
+  .tag-green { background: var(--lg2); color: var(--dg2); }
+  .tag-red { background: #fdecea; color: #7a2020; }
+  .tag-gold { background: rgba(224,160,88,0.15); color: #6b4c0a; }
+
+  .segment-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin: 20px 0; }
+  .seg-card { border: 0.5px solid var(--border); border-radius: 10px; padding: 20px; background: white; }
+  .seg-icon { width: 36px; height: 36px; border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .seg-name { font-size: 13px; font-weight: 500; color: var(--dg2); margin-bottom: 6px; }
+  .seg-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .seg-badge { font-size: 10px; padding: 3px 10px; border-radius: 12px; display: inline-block; font-weight: 500; }
+  .seg-primary { background: var(--dg4); color: white; }
+  .seg-secondary { background: var(--lg2); color: var(--dg2); }
+  .seg-opportunity { background: rgba(224,160,88,0.18); color: #6b4c0a; }
+
+  .competitor-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .competitor-table th { text-align: left; padding: 10px 14px; background: var(--dg2); color: rgba(255,255,255,0.7); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400; }
+  .competitor-table th:first-child { border-radius: 8px 0 0 0; }
+  .competitor-table th:last-child { border-radius: 0 8px 0 0; }
+  .competitor-table td { padding: 12px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: top; line-height: 1.5; }
+  .competitor-table tr:last-child td { border-bottom: none; }
+  .competitor-table tr:hover td { background: var(--offwhite); }
+  .str { color: #2a6b3a; font-size: 12px; }
+  .wkn { color: #8b2a2a; font-size: 12px; }
+
+  .gap-box { background: var(--dg2); border-radius: 12px; padding: 28px 28px; margin: 20px 0; }
+  .gap-title { font-family: 'Playfair Display', serif; font-size: 18px; color: white; margin-bottom: 20px; }
+  .positioning-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pos-option { background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px; }
+  .pos-option.recommended { border-color: var(--gold); background: rgba(224,160,88,0.08); }
+  .pos-num { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .pos-heading { font-size: 13px; font-weight: 500; color: white; margin-bottom: 6px; }
+  .pos-text { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+  .recommended-badge { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+
+  .bottleneck-list { margin: 20px 0; }
+  .bottleneck-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 0.5px solid var(--border); }
+  .bottleneck-item:last-child { border-bottom: none; }
+  .bn-dot { width: 8px; height: 8px; border-radius: 50%; background: #c04040; margin-top: 5px; flex-shrink: 0; }
+  .bn-title { font-size: 14px; font-weight: 500; color: var(--dg2); margin-bottom: 3px; }
+  .bn-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .funnel { margin: 24px 0; }
+  .funnel-stage { display: flex; align-items: stretch; gap: 16px; margin-bottom: 12px; }
+  .funnel-label { min-width: 140px; padding: 14px 0; }
+  .funnel-label-text { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .funnel-label-sub { font-size: 12px; color: var(--text); font-weight: 500; }
+  .funnel-bar-wrap { flex: 1; display: flex; align-items: center; }
+  .funnel-bar { height: 44px; border-radius: 6px; display: flex; align-items: center; padding: 0 16px; font-size: 12px; color: white; font-weight: 400; line-height: 1.4; }
+  .funnel-bar span { opacity: 0.7; }
+
+  .roadmap { margin: 20px 0; }
+  .roadmap-phase { margin-bottom: 24px; }
+  .phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dg4); flex-shrink: 0; }
+  .phase-title { font-size: 13px; font-weight: 500; color: var(--dg2); }
+  .phase-period { font-size: 11px; color: var(--gold); margin-left: auto; }
+  .phase-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-left: 22px; }
+  .phase-item { background: var(--offwhite); border: 0.5px solid var(--border); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: var(--text); line-height: 1.5; }
+  .phase-item::before { content: '→ '; color: var(--dg4); font-size: 11px; }
+
+  .success-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin: 20px 0; }
+  .success-item { background: var(--lg); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .success-check { width: 20px; height: 20px; border-radius: 50%; background: var(--dg4); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .check-mark { width: 8px; height: 5px; border-left: 1.5px solid white; border-bottom: 1.5px solid white; transform: rotate(-45deg) translate(1px, -1px); }
+  .success-text { font-size: 13px; color: var(--dg2); font-weight: 500; line-height: 1.4; }
+
+  .product-line { background: var(--dg2); border-radius: 12px; padding: 28px; margin: 20px 0; }
+  .product-line-title { font-family: 'Playfair Display', serif; font-size: 18px; color: white; margin-bottom: 8px; }
+  .product-line-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 24px; }
+  .product-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .product-item { background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px; }
+  .product-name { font-size: 13px; font-weight: 500; color: white; margin-bottom: 4px; }
+  .product-desc { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  .footer { background: var(--dg2); padding: 28px 64px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 16px; color: rgba(255,255,255,0.6); }
+  .footer-right { font-size: 11px; color: rgba(255,255,255,0.25); text-align: right; line-height: 1.6; }
+
+  .chart-wrap { position: relative; width: 100%; }
+  .chart-label { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+
+  .divider { width: 40px; height: 2px; background: var(--gold); margin: 0 0 20px; }
+
+  .risk-banner { display: flex; align-items: center; gap: 16px; background: #fdecea; border: 1px solid rgba(192,64,64,0.25); border-radius: 10px; padding: 16px 20px; margin: 20px 0; }
+  .risk-icon { width: 32px; height: 32px; border-radius: 50%; background: #c04040; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 16px; font-family: 'Playfair Display', serif; }
+  .risk-text { font-size: 13px; color: #7a2020; line-height: 1.6; }
+
+  .split-bar-wrap { margin: 24px 0; }
+  .split-bar { display: flex; height: 48px; border-radius: 8px; overflow: hidden; }
+  .split-seg { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: white; }
+  .split-legend { display: flex; gap: 24px; margin-top: 12px; }
+  .split-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .split-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  .offer-tiers { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin: 20px 0; }
+  .tier-card { border: 0.5px solid var(--border); border-radius: 10px; padding: 22px 20px; background: white; position: relative; }
+  .tier-card.tier-anchor { border: 1.5px solid var(--gold); background: var(--lg); }
+  .tier-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+  .tier-name { font-size: 15px; font-weight: 500; color: var(--dg2); margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+  .tier-price { font-size: 22px; font-family: 'Playfair Display', serif; color: var(--dg4); margin-bottom: 10px; }
+  .tier-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .tier-pill { position: absolute; top: -10px; right: 16px; background: var(--dg4); color: white; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 10px; font-weight: 500; }
+
+  @media (max-width: 640px) {
+    .section, .cover, .toc, .footer { padding-left: 28px; padding-right: 28px; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    .segment-grid, .success-grid, .offer-tiers { grid-template-columns: 1fr; }
+    .two-col, .phase-items, .positioning-options, .product-items { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .cover-title { font-size: 30px; }
+  }
+</style>
+
+<div class="report">
+
+  <div class="cover">
+    <div class="cover-eyebrow">Kaizen ASC — Confidential</div>
+    <div class="cover-title">Agency Growth<br>Diagnostic Report</div>
+    <div class="cover-subtitle">Strategic Pricing, Offer & Conversion Blueprint</div>
+    <div class="cover-line"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Client</div>
+        <div class="cover-meta-value">Resin Design Agency</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Decision Maker</div>
+        <div class="cover-meta-value">Shreyash Kadam, Founder</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Stage</div>
+        <div class="cover-meta-value">Early-stage · &lt;6 months</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Prepared by</div>
+        <div class="cover-meta-value">Kaizen ASC</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-grid">
+      <div class="toc-item"><span class="toc-num">01</span> Business Snapshot</div>
+      <div class="toc-item"><span class="toc-num">02</span> Market Landscape</div>
+      <div class="toc-item"><span class="toc-num">03</span> The Pricing Gap</div>
+      <div class="toc-item"><span class="toc-num">04</span> Why Calls Are Dropping</div>
+      <div class="toc-item"><span class="toc-num">05</span> The Treadmill Risk</div>
+      <div class="toc-item"><span class="toc-num">06</span> Current Bottlenecks</div>
+      <div class="toc-item"><span class="toc-num">07</span> The Irresistible Offer</div>
+      <div class="toc-item"><span class="toc-num">08</span> Acquisition Rebalance</div>
+      <div class="toc-item"><span class="toc-num">09</span> 90-Day Roadmap</div>
+      <div class="toc-item"><span class="toc-num">10</span> Success Metrics</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Business Snapshot</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">Resin Design Agency is a sub-6-month-old product design studio serving D2C startups with branding, website, and full-stack design/development. The agency is enthusiastic, technically capable, and already winning meetings — but the business model underneath that capability is misaligned. The work quality is outperforming the price tag, and the price tag is what's capping the revenue.</p>
+    <div class="metrics-row" style="margin-top: 28px;">
+      <div class="metric-card">
+        <div class="metric-label">Current Monthly Rev</div>
+        <div class="metric-value">&lt;₹2L</div>
+        <div class="metric-sub">Below target</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Stated Target (3–6mo)</div>
+        <div class="metric-value">₹2L</div>
+        <div class="metric-sub">Monthly</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Current Avg Deal</div>
+        <div class="metric-value">₹42K</div>
+        <div class="metric-sub">Underpriced</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">True Work Quality</div>
+        <div class="metric-value">₹1L+</div>
+        <div class="metric-sub">Per project, today</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>Core diagnosis:</strong> The ₹2L target is not just achievable — it is undersized relative to what Shreyash's work already justifies. The real ceiling is being held down by pricing, not by capability or by market access. This is a pricing and offer-architecture problem wearing the costume of a "lead generation" problem.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Market Landscape</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">The D2C and startup product-design market in India is expanding fast, fuelled by an explosion of online-first brands that need credible digital storefronts and product experiences but can't yet justify a large in-house design team.</p>
+    <div style="margin: 28px 0 10px;">
+      <div class="chart-label">India D2C startup ecosystem — active brands needing design/web partners (indexed, 2021–2026)</div>
+      <div class="chart-wrap" style="height: 240px;">
+        <canvas id="marketChart" role="img" aria-label="Bar chart of growth in D2C brands needing design partners 2021 to 2026">Index growing from 100 in 2021 to roughly 240 by 2026.</canvas>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top: 28px;">
+      <div class="card">
+        <div class="card-title">Market drivers</div>
+        <div class="card-text">D2C funding rounds, quick-commerce growth, and Shopify/headless storefronts have created thousands of small-mid online brands that need polished websites and product UX but operate on lean budgets and fast timelines.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">What this means for Resin</div>
+        <div class="card-text">Demand for design partners in this segment is high, but it is also commoditised at the low end. Resin's actual leverage is not more leads — it's escaping the price band where every D2C founder assumes "₹40–50K" is the going rate.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">The Pricing Gap</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">This is Finding One, and it is the most consequential number in this entire diagnostic. Resin is pricing its work roughly 60% below what the quality, scope, and craft genuinely support in this market.</p>
+    <div style="margin: 24px 0;">
+      <div class="chart-label">Current price vs. true market value of comparable work</div>
+      <div class="chart-wrap" style="height: 220px;">
+        <canvas id="pricingChart" role="img" aria-label="Bar chart comparing current pricing of 42000 rupees to true value of 100000 rupees">Current average deal at ₹42,000 versus true comparable market value of ₹1,00,000+.</canvas>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>Why this matters more than lead volume:</strong> At ₹42K, Shreyash needs roughly 5 projects a month to hit ₹2L — a volume-dependent, delivery-heavy model for a one-person-led shop less than 6 months old. At ₹1L, the same ₹2L target needs just 2 projects a month. Underpricing isn't just lost margin — it's the reason the business has to run faster than it should to stand still.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Why Calls Are Dropping at Enquiry</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">Finding Three. Shreyash reports getting meetings where prospects "understand the idea" but are already working with another agency — and the call still doesn't convert. The pattern points to one root cause: in the sales conversation, the lead holds all the power, and Resin holds none.</p>
+    <div class="two-col">
+      <div class="card" style="border-left: 2px solid #c04040;">
+        <div class="card-title" style="color: #8b2a2a;">What's happening on the call today</div>
+        <div class="card-text" style="color: var(--muted);">No qualification before the call. No scripted framing of value. No anchor price stated with conviction. The prospect treats the call as a free consultation, compares Resin informally against their existing agency, and leaves without urgency to decide.</div>
+      </div>
+      <div class="card" style="border-left: 2px solid var(--dg4);">
+        <div class="card-title" style="color: var(--dg4);">What needs to happen instead</div>
+        <div class="card-text" style="color: var(--muted);">A structured SOP: pre-call qualification, a fixed-offer framing presented with confidence, and a clear close mechanism. Power on the call comes from clarity and structure — not aggression.</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      The drop-off point being "enquiry" despite an informal funnel confirms this isn't a top-of-funnel problem. Leads are arriving. The conversation itself is where value is being lost.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">The Treadmill Risk</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">Finding Three (continued). Resin sits in a grey zone common to early-stage agencies: enthusiastic, capable, and busy — but without the systems that convert effort into compounding growth. Left uncorrected, this grey zone has a known failure mode.</p>
+    <div class="risk-banner">
+      <div class="risk-icon">!</div>
+      <div class="risk-text"><strong>The window to fix this is narrow.</strong> If pricing, offer, and sales structure aren't corrected in the next 60–90 days, Resin risks becoming a "treadmill agency" — one where Shreyash trades hours for low-margin projects indefinitely, with revenue capped by his own time rather than by market demand. The longer underpricing persists, the harder the eventual price increase becomes, because the agency's reputation calcifies around the lower number.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Current Bottlenecks</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">A candid diagnosis of the structural gaps preventing Resin from converting its existing outreach effort into revenue.</p>
+    <div class="bottleneck-list">
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">Pricing doesn't match work quality</div>
+          <div class="bn-desc">₹42K average deal size against work that performs at ₹1L+ standard. This single mismatch explains most of the revenue gap on its own.</div>
+        </div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">No irresistible offer</div>
+          <div class="bn-desc">Outreach effort is well-executed, but without a sharply packaged, hard-to-refuse offer, even good targeting produces lukewarm interest instead of urgency.</div>
+        </div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">No power on the sales call</div>
+          <div class="bn-desc">Leads and prospects currently control the conversation. Without a structured call framework, every call defaults to a price comparison the prospect controls.</div>
+        </div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">No SOP for outreach-to-close</div>
+          <div class="bn-desc">Cold outreach is running, but there is no documented, repeatable process connecting first touch to qualified call to signed deal. Every interaction is reinvented.</div>
+        </div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">100% active, 0% passive acquisition</div>
+          <div class="bn-desc">Cold outreach is the sole lead source. There is no passive or automated layer capturing inbound interest, meaning every lead costs founder time directly.</div>
+        </div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bn-dot"></div>
+        <div>
+          <div class="bn-title">Lead quality, not just lead quantity</div>
+          <div class="bn-desc">A share of current meetings are with prospects already committed to another agency — time spent on conversations with low structural likelihood of converting.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">The Irresistible Offer — Three-Tier Architecture</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">Finding Two and the core strategic recommendation. Rather than one flat price point, Resin should operate three concurrent offer tiers — each serving a different purpose in the business.</p>
+    <div class="offer-tiers">
+      <div class="tier-card tier-anchor">
+        <div class="tier-pill">Anchor offer</div>
+        <div class="tier-label">Tier 1 · Irresistible</div>
+        <div class="tier-name">Website Sprint Package</div>
+        <div class="tier-price">₹1,00,000</div>
+        <div class="tier-desc">A tightly scoped, fast-turnaround website/design package built around Resin's most profitable service. Fixed price, fixed deliverables, fixed timeline — designed to be the easy "yes" that replaces the ₹42K negotiation entirely.</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-label">Tier 2 · Regular flow</div>
+        <div class="tier-name">Branding + Web Build</div>
+        <div class="tier-price">₹1L – ₹1.5L</div>
+        <div class="tier-desc">The standard engagement for D2C startups needing both brand identity and a production-ready site. Keeps a steady base of recurring, predictable work flowing alongside the anchor offer.</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-label">Tier 3 · Whale accounts</div>
+        <div class="tier-name">Full-Stack Product Build</div>
+        <div class="tier-price">~₹2.5L+</div>
+        <div class="tier-desc">For funded or scaling D2C brands needing full design + development. Lower volume, highest margin — the tier that turns a handful of accounts into the majority of monthly revenue.</div>
+      </div>
+    </div>
+    <div style="margin: 24px 0;">
+      <div class="chart-label">Conservative pipeline math: 15 leads/month at the ₹1L anchor offer</div>
+      <div class="chart-wrap" style="height: 200px;">
+        <canvas id="pipelineChart" role="img" aria-label="Bar chart showing pipeline value and revenue at different conversion rates">15 leads at 1 lakh rupees creates a 15 lakh rupee pipeline. At 10 percent conversion that is 1.5 lakh rupees in monthly revenue.</canvas>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>The math:</strong> 15 leads/month × ₹1L offer = ₹15L of monthly pipeline value, even on the conservative end. A 10% close rate alone delivers ₹1.5L/month — already exceeding the current revenue and closing in on the stated ₹2L target from fewer, higher-value closes rather than higher volume.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Acquisition Rebalance — 40/60 Split</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">Resin currently runs on 100% active outreach. To escape the treadmill risk, acquisition needs to shift toward a mix where founder time scales independently of lead volume.</p>
+    <div class="split-bar-wrap">
+      <div class="split-bar">
+        <div class="split-seg" style="width: 40%; background: var(--dg4);">40% Active Outreach</div>
+        <div class="split-seg" style="width: 60%; background: var(--dg2);">60% Passive + Automated</div>
+      </div>
+      <div class="split-legend">
+        <div class="split-legend-item"><div class="split-dot" style="background: var(--dg4);"></div>Founder-led cold outreach, warm follow-ups, referral asks</div>
+        <div class="split-legend-item"><div class="split-dot" style="background: var(--dg2);"></div>Content, inbound landing page, automated sequences, portfolio-led discovery</div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top: 20px;">
+      <div class="card">
+        <div class="card-title">Active (40%) — keep doing, but sharpen</div>
+        <div class="tag-row">
+          <span class="tag tag-gold">Targeted cold outreach</span>
+          <span class="tag tag-gold">Qualification script</span>
+        </div>
+        <div class="card-text" style="margin-top: 10px;">Pre-qualify before booking calls. Filter out prospects already committed elsewhere with no stated dissatisfaction. Lead with the ₹1L anchor offer, not an open-ended pitch.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Passive/automated (60%) — build this next</div>
+        <div class="tag-row">
+          <span class="tag tag-green">Portfolio landing page</span>
+          <span class="tag tag-green">Email/DM sequences</span>
+          <span class="tag tag-green">Case study content</span>
+        </div>
+        <div class="card-text" style="margin-top: 10px;">A conversion-focused landing page anchored to the ₹1L offer, automated follow-up sequences for non-responders, and case-study content from existing portfolio work (Tracely, Talent Finder, Logistic) doing trust-building on autopilot.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">90-Day Growth Roadmap</span>
+    </div>
+    <div class="section-rule"></div>
+    <div class="roadmap">
+      <div class="roadmap-phase">
+        <div class="phase-header">
+          <div class="phase-dot"></div>
+          <div class="phase-title">Days 1–14 — Pricing & Offer Reset</div>
+          <div class="phase-period">Sprint phase</div>
+        </div>
+        <div class="phase-items">
+          <div class="phase-item">Lock the ₹1L anchor offer scope and deliverables</div>
+          <div class="phase-item">Write and rehearse the sales call SOP</div>
+          <div class="phase-item">Build pre-call qualification checklist</div>
+          <div class="phase-item">Update website/portfolio framing around new pricing</div>
+        </div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="phase-header">
+          <div class="phase-dot"></div>
+          <div class="phase-title">Days 15–45 — Channel Rebalance</div>
+          <div class="phase-period">Build phase</div>
+        </div>
+        <div class="phase-items">
+          <div class="phase-item">Launch landing page anchored to the ₹1L offer</div>
+          <div class="phase-item">Set up automated follow-up sequences</div>
+          <div class="phase-item">Shift outreach targeting toward qualified-fit prospects only</div>
+          <div class="phase-item">Document 2–3 case studies from existing portfolio</div>
+        </div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="phase-header">
+          <div class="phase-dot"></div>
+          <div class="phase-title">Days 46–90 — Conversion & Scale</div>
+          <div class="phase-period">Optimisation phase</div>
+        </div>
+        <div class="phase-items">
+          <div class="phase-item">Track call-to-close conversion weekly, refine script</div>
+          <div class="phase-item">Introduce Tier 3 whale outreach to funded D2C brands</div>
+          <div class="phase-item">Review pipeline value vs. actual closes monthly</div>
+          <div class="phase-item">Begin internalising full SOP for long-term ownership</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <div class="chart-label">Projected monthly revenue trajectory — new pricing vs. status quo</div>
+      <div class="chart-wrap" style="height: 220px;">
+        <canvas id="revenueChart" role="img" aria-label="Line chart projecting revenue growth over 90 days under new pricing versus status quo">Status quo stays near 1.5 to 2 lakh rupees while the new pricing model grows to over 2.5 lakh rupees by day 90.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Success Metrics — 90-Day Targets</span>
+    </div>
+    <div class="section-rule"></div>
+    <p class="intro-text">These are the measurable outcomes that define success at the end of the 90-day engagement, tied directly to fixing conversion rather than just adding more outreach volume.</p>
+    <div class="success-grid">
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">Average deal size moved from ₹42K toward ₹1L+</div>
+      </div>
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">Documented sales call SOP in active use</div>
+      </div>
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">Measurably improved enquiry-to-close conversion</div>
+      </div>
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">Acquisition mix shifted to 40% active / 60% passive</div>
+      </div>
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">₹2L monthly target met or exceeded</div>
+      </div>
+      <div class="success-item">
+        <div class="success-check"><div class="check-mark"></div></div>
+        <div class="success-text">At least one Tier 3 whale client in pipeline</div>
+      </div>
+    </div>
+    <div class="gap-box" style="margin-top: 28px;">
+      <div style="font-family: 'Playfair Display', serif; font-size: 20px; color: white; margin-bottom: 12px;">The strategic truth</div>
+      <div style="font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 620px;">Resin Design Agency already has the design and development talent to justify premium pricing. What's missing is not more hustle — it's a structure that lets the existing effort land at the right price, in front of the right prospects, with the founder holding control of the conversation. Fix pricing, fix the offer, fix the call — and the ₹2L target stops being a stretch goal and becomes a floor.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">Resin Design Agency</div>
+    <div class="footer-right">Prepared by Kaizen ASC<br>Confidential — not for distribution</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('marketChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2021','2022','2023','2024','2025','2026'],
+    datasets: [{
+      label: 'D2C Demand Index',
+      data: [100, 124, 152, 183, 212, 240],
+      backgroundColor: ['rgba(20,24,31,0.2)','rgba(20,24,31,0.3)','rgba(20,24,31,0.45)','rgba(185,118,47,0.55)','rgba(185,118,47,0.75)','rgba(224,160,88,0.95)'],
+      borderColor: '#14181f',
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => ' Index: ' + v.raw } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#6b6258', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#6b6258', font: { size: 11 } }, min: 0, max: 260 }
+    }
+  }
+});
+
+new Chart(document.getElementById('pricingChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Current Avg Deal', 'True Market Value'],
+    datasets: [{
+      data: [42000, 100000],
+      backgroundColor: ['rgba(192,64,64,0.55)', 'rgba(224,160,88,0.9)'],
+      borderRadius: 6,
+      borderWidth: 0
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => ' ₹' + v.raw.toLocaleString('en-IN') } } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#6b6258', font: { size: 11 }, callback: v => '₹' + (v/1000) + 'K' }, min: 0, max: 120000 },
+      y: { grid: { display: false }, ticks: { color: '#14181f', font: { size: 12 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('pipelineChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Pipeline Value', 'At 10% Close', 'At 15% Close'],
+    datasets: [{
+      data: [1500000, 150000, 225000],
+      backgroundColor: ['rgba(20,24,31,0.85)', 'rgba(224,160,88,0.9)', 'rgba(185,118,47,0.9)'],
+      borderRadius: 6,
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => ' ₹' + v.raw.toLocaleString('en-IN') } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#6b6258', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#6b6258', font: { size: 11 }, callback: v => '₹' + (v/100000) + 'L' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['Day 0','Day 15','Day 30','Day 45','Day 60','Day 75','Day 90'],
+    datasets: [
+      {
+        label: 'Status quo (₹42K avg deal)',
+        data: [180000, 170000, 165000, 175000, 180000, 185000, 190000],
+        borderColor: '#b9762f',
+        backgroundColor: 'rgba(185,118,47,0.05)',
+        fill: true, tension: 0.4, borderWidth: 2,
+        pointRadius: 3, pointBackgroundColor: '#b9762f',
+        borderDash: [5,3]
+      },
+      {
+        label: 'New pricing model (₹1L anchor)',
+        data: [180000, 195000, 220000, 250000, 280000, 310000, 340000],
+        borderColor: '#14181f',
+        backgroundColor: 'rgba(20,24,31,0.08)',
+        fill: true, tension: 0.4, borderWidth: 2.5,
+        pointRadius: 3.5, pointBackgroundColor: '#14181f'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#6b6258', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#6b6258', font: { size: 11 }, callback: v => '₹' + (v/100000).toFixed(1) + 'L' }, min: 100000, max: 360000 }
+    }
+  }
+});
+</script>
