@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kaizen WA 360 — Project Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #222222;
+    --green: #25D366;
+    --green-dim: #1a9e4a;
+    --green-glow: rgba(37,211,102,0.12);
+    --green-glow2: rgba(37,211,102,0.06);
+    --text: #f0f0f0;
+    --muted: #888;
+    --muted2: #555;
+    --accent: #25D366;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--green);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--text); }
+  .nav-links {
+    display: flex; gap: 0; list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    font-family: var(--mono);
+  }
+  .nav-links a:hover { color: var(--green); background: var(--green-glow2); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 80px 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(37,211,102,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,211,102,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(37,211,102,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 820px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-glow);
+    border: 1px solid rgba(37,211,102,0.3);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero-badge::before { content: '●'; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  h1 .wa { color: var(--green); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+  .hero-stats {
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-width: 120px;
+  }
+  .stat-num {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--green);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .section-desc { color: var(--muted); max-width: 580px; margin-bottom: 3rem; line-height: 1.8; }
+
+  /* ARCH DIAGRAM */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .arch-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .arch-box.green-border { border-color: rgba(37,211,102,0.4); }
+  .arch-box-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .arch-box-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: var(--green);
+  }
+  .arch-box-sub { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); }
+  .arch-arrow {
+    text-align: center;
+    color: var(--green);
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+  .arch-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* TABS */
+  .tabs { margin-bottom: 0; }
+  .tab-nav {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 10px 18px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab-btn:hover { color: var(--text); }
+  .tab-content { display: none; padding: 2rem 0 0; }
+  .tab-content.active { display: block; }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .code-filename {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--green);
+  }
+  .code-lang {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted2);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  pre {
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: #ccc;
+  }
+  .kw { color: #7eb8f7; }
+  .str { color: #a8d8a8; }
+  .cm { color: #555; font-style: italic; }
+  .fn { color: var(--green); }
+  .num { color: #f7c96e; }
+
+  /* FEATURE GRID */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .feature-card:hover {
+    border-color: rgba(37,211,102,0.3);
+    transform: translateY(-2px);
+  }
+  .feature-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .feature-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+  .feature-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+  /* SIDEBAR PREVIEW */
+  .sidebar-preview {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    height: 420px;
+  }
+  .sidebar-nav {
+    background: #0d0d0d;
+    border-right: 1px solid var(--border);
+    padding: 1.25rem 0;
+  }
+  .sidebar-brand {
+    padding: 0 1rem 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+  .sidebar-brand-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--green);
+  }
+  .sidebar-brand-sub { font-size: 0.65rem; color: var(--muted2); font-family: var(--mono); }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 16px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { color: var(--text); background: var(--surface2); }
+  .sidebar-item.active {
+    color: var(--green);
+    background: var(--green-glow2);
+    border-left-color: var(--green);
+  }
+  .sidebar-section-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted2);
+    padding: 12px 16px 4px;
+  }
+  .main-content-preview {
+    padding: 1.5rem;
+    overflow: hidden;
+  }
+  .preview-header {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .preview-cards {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;
+  }
+  .preview-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+  }
+  .preview-card-num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--green);
+  }
+  .preview-card-label { font-size: 0.68rem; color: var(--muted); font-family: var(--mono); }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+    padding-left: 2rem;
+  }
+  .flow-step {
+    display: flex; align-items: flex-start; gap: 1rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+  }
+  .flow-step:last-child { padding-bottom: 0; }
+  .flow-step::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 28px;
+    width: 2px; bottom: 0;
+    background: var(--border);
+  }
+  .flow-step:last-child::before { display: none; }
+  .flow-dot {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green-glow);
+    border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.6rem;
+    color: var(--green);
+    font-family: var(--mono);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .flow-body {}
+  .flow-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+  .flow-desc { font-size: 0.82rem; color: var(--muted); }
+
+  /* TABLE */
+  .db-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .db-table-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--green);
+    font-weight: 600;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  td {
+    padding: 9px 16px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #1a1a1a;
+    font-family: var(--mono);
+  }
+  tr:last-child td { border-bottom: none; }
+  .col-name { color: var(--green); }
+  .col-type { color: #7eb8f7; }
+  .col-note { color: var(--muted); font-size: 0.72rem; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-family: var(--mono);
+    font-weight: 600;
+  }
+  .badge-pk { background: rgba(247,201,110,0.15); color: #f7c96e; }
+  .badge-fk { background: rgba(126,184,247,0.15); color: #7eb8f7; }
+  .badge-req { background: rgba(37,211,102,0.12); color: var(--green); }
+
+  /* ADMIN TABLE */
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* NUDGE BOXES */
+  .nudge {
+    background: var(--green-glow2);
+    border: 1px solid rgba(37,211,102,0.2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .nudge-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .nudge strong { color: var(--text); }
+
+  /* STACK PILLS */
+  .stack-row {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .stack-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-family: var(--mono);
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .stack-pill:hover { border-color: rgba(37,211,102,0.3); }
+  .stack-pill-role { font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+
+  /* CHATBOT FLOW */
+  .chatbot-rule {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+  }
+  .rule-if { color: #7eb8f7; }
+  .rule-keyword {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--text);
+  }
+  .rule-then { color: var(--green); }
+  .rule-reply {
+    background: var(--green-glow2);
+    border: 1px solid rgba(37,211,102,0.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--green);
+    font-size: 0.75rem;
+  }
+
+  /* BILLING */
+  .billing-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .form-field input, .form-field select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-field input:focus, .form-field select:focus { border-color: var(--green); }
+  .form-field select option { background: var(--surface2); }
+
+  /* COMMANDS */
+  .cmd-block {
+    background: #0a0a0a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cmd-prompt { color: var(--green); flex-shrink: 0; }
+  .cmd-text { color: #ccc; }
+  .cmd-comment { color: var(--muted2); font-size: 0.72rem; margin-left: auto; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--muted2);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+  }
+  footer span { color: var(--green); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 2rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .arch-grid { grid-template-columns: 1fr; }
+    .arch-arrow { transform: rotate(90deg); }
+    .sidebar-preview { grid-template-columns: 1fr; height: auto; }
+    .sidebar-nav { display: none; }
+    .admin-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .chatbot-rule { grid-template-columns: auto 1fr; }
+    .rule-then, .rule-reply { display: none; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .preview-cards { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🟢 Kaizen <span>WA 360</span></div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#database">Database</a></li>
+    <li><a href="#chatbot">Chatbot</a></li>
+    <li><a href="#admin">Admin</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#build">Build Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Project Blueprint — For Claude</div>
+    <h1>Kaizen <span class="wa">WA 360</span></h1>
+    <p class="hero-sub">A multi-tenant WhatsApp SaaS — bulk messaging, chatbot automation, contact management and campaign scheduling — built for Indian SMBs. One codebase, 5–7 clients, zero re-deployment.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">2</span><span class="stat-label">Repos</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Platforms</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Max Clients</span></div>
+      <div class="stat"><span class="stat-num">30m</span><span class="stat-label">Onboarding</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-label">// 01 — What this is</div>
+  <h2>The Product</h2>
+  <p class="section-desc">Kaizen WA 360 is a white-label WhatsApp automation SaaS. The builder (Sahil / Kaizen ASC) runs one deployment. Each paying client gets their own login, their own WhatsApp number connected, their own database, and their own branded experience.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">QR Connect Once</div>
+      <div class="feature-desc">Client scans QR code once. Session is saved to their Supabase. Auto-reconnects on engine restart. No re-scanning.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">Chatbot Flows</div>
+      <div class="feature-desc">Visual if/else keyword rule builder. Sequence flows (reply 1 for X, 2 for Y). Fallback reply. All stored as JSON in Supabase.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📣</div>
+      <div class="feature-title">Bulk Campaigns</div>
+      <div class="feature-desc">Upload CSV contacts. Set message template. Schedule time. Engine sends with random delays (anti-ban). Daily cap respected.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Live Inbox</div>
+      <div class="feature-desc">All incoming messages logged to Supabase in real time. Client sees full conversation history per contact in their dashboard.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <div class="feature-title">Contact Manager</div>
+      <div class="feature-desc">Import via CSV. Tag contacts (lead, customer, VIP). Filter by tag for targeted campaigns. View message history per contact.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📖</div>
+      <div class="feature-title">User Guide</div>
+      <div class="feature-desc">Built-in collapsible user guide inside every client dashboard — same pattern as Seven Elements Mailer. No external docs needed.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👑</div>
+      <div class="feature-title">Super Admin Panel</div>
+      <div class="feature-desc">Only Sahil sees this. Add clients, store their Supabase keys, track payments, renewals, session health. Full client CRM.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <div class="feature-title">Flexible Billing</div>
+      <div class="feature-desc">No fixed pricing in code. Setup fee + monthly retainer set per client while onboarding. Renewal dates tracked in admin.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="section-label">// 02 — How it's wired</div>
+  <h2>Architecture</h2>
+  <p class="section-desc">Three platforms, two repos. The WhatsApp engine must be persistent — it cannot run on Vercel (serverless). Fly.io keeps the socket alive 24/7 for free.</p>
+
+  <div class="arch-grid">
+    <div class="arch-box green-border">
+      <div class="arch-box-icon">▲</div>
+      <div class="arch-box-title">Vercel</div>
+      <div class="arch-box-sub">Next.js 14 App<br/>Dashboard UI + Auth<br/>API Routes (proxy)<br/>Admin Panel</div>
+    </div>
+    <div class="arch-arrow">⇄</div>
+    <div class="arch-box green-border">
+      <div class="arch-box-icon">🟢</div>
+      <div class="arch-box-title">Fly.io</div>
+      <div class="arch-box-sub">Node.js Engine<br/>Baileys WA Sockets<br/>Message Queue<br/>Webhook Events</div>
+    </div>
+    <div class="arch-arrow">⇄</div>
+    <div class="arch-box green-border">
+      <div class="arch-box-icon">⚡</div>
+      <div class="arch-box-title">Supabase</div>
+      <div class="arch-box-sub">Per-client DB<br/>Auth + RLS<br/>Realtime events<br/>Session storage</div>
+    </div>
+  </div>
+
+  <div class="arch-bottom">
+    <div class="nudge">
+      <span class="nudge-icon">🔑</span>
+      <div><strong>Master Supabase (yours)</strong> — tiny config DB. Stores each client's Supabase URL + keys + billing. Never touches their data.</div>
+    </div>
+    <div class="nudge">
+      <span class="nudge-icon">📦</span>
+      <div><strong>Client Supabase (theirs)</strong> — their own free project. Contacts, campaigns, flows, logs. Their 500MB, their problem.</div>
+    </div>
+  </div>
+
+  <div class="nudge">
+    <span class="nudge-icon">💡</span>
+    <div><strong>One Fly.io engine handles ALL clients.</strong> Sessions stored as a map: <code style="color:var(--green);font-family:var(--mono)">{ clientId: baileysSocket }</code>. When a message arrives, engine reads clientId → fetches their flow from their Supabase → replies. One process, many numbers.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES / UI -->
+<section id="features">
+  <div class="section-label">// 03 — What the UI looks like</div>
+  <h2>Dashboard UI</h2>
+  <p class="section-desc">Two roles: superadmin (Sahil) and client. Same Next.js app, same URL, different sidebar and data. Role stored in master Supabase auth metadata.</p>
+
+  <div class="sidebar-preview">
+    <div class="sidebar-nav">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-name">WA 360</div>
+        <div class="sidebar-brand-sub">client@email.com</div>
+      </div>
+      <div class="sidebar-section-label">Main</div>
+      <div class="sidebar-item active">📊 Dashboard</div>
+      <div class="sidebar-item">👥 Contacts</div>
+      <div class="sidebar-item">📣 Campaigns</div>
+      <div class="sidebar-item">🤖 Chatbot</div>
+      <div class="sidebar-section-label">Messages</div>
+      <div class="sidebar-item">💬 Conversations</div>
+      <div class="sidebar-section-label">Setup</div>
+      <div class="sidebar-item">📱 WA Connect</div>
+      <div class="sidebar-item">📖 User Guide</div>
+      <div class="sidebar-item">⚙️ Settings</div>
+    </div>
+    <div class="main-content-preview">
+      <div class="preview-header">Dashboard</div>
+      <div class="preview-cards">
+        <div class="preview-card">
+          <div class="preview-card-num" style="color:var(--green)">2,841</div>
+          <div class="preview-card-label">Messages Sent</div>
+        </div>
+        <div class="preview-card">
+          <div class="preview-card-num" style="color:#7eb8f7">184</div>
+          <div class="preview-card-label">Contacts</div>
+        </div>
+        <div class="preview-card">
+          <div class="preview-card-num" style="color:#f7c96e">3</div>
+          <div class="preview-card-label">Active Campaigns</div>
+        </div>
+      </div>
+      <div style="margin-top:1.25rem;padding:1rem;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem">WA SESSION STATUS</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem">
+          <span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="color:var(--green);font-family:var(--mono)">Connected</span>
+          <span style="color:var(--muted2);font-family:var(--mono);font-size:0.72rem;margin-left:auto">+91 98XXXXXXXX</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem">TODAY'S LIMIT</div>
+        <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:58%;background:var(--green);border-radius:3px"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.68rem;color:var(--muted);margin-top:4px">174 / 300 messages sent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DATABASE -->
+<section id="database">
+  <div class="section-label">// 04 — Database schema</div>
+  <h2>SQL Template Script</h2>
+  <p class="section-desc">Run this once on every new client's Supabase. Their full database is ready in 60 seconds. This is the template — copy it, paste in Supabase SQL editor, run.</p>
+
+  <div class="tabs">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab(event,'tab-contacts')">contacts</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-campaigns')">campaigns</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-chatbot')">chatbot_flows</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-messages')">messages_log</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-sessions')">wa_sessions</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-master')">master_clients</button>
+    </div>
+
+    <div id="tab-contacts" class="tab-content active">
+      <div class="db-table">
+        <div class="db-table-header">📋 contacts — Client's contact database</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">name</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Full name</td></tr>
+            <tr><td class="col-name">phone</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">With country code: 919876543210</td></tr>
+            <tr><td class="col-name">tags</td><td class="col-type">text[]</td><td></td><td class="col-note">Array: ['lead','vip','customer']</td></tr>
+            <tr><td class="col-name">notes</td><td class="col-type">text</td><td></td><td class="col-note">Optional notes about this contact</td></tr>
+            <tr><td class="col-name">opted_out</td><td class="col-type">boolean</td><td></td><td class="col-note">Default false. If true, skip in campaigns</td></tr>
+            <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">now()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-campaigns" class="tab-content">
+      <div class="db-table">
+        <div class="db-table-header">📣 campaigns — Bulk send jobs</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">name</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Campaign label</td></tr>
+            <tr><td class="col-name">message_template</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Supports {{name}} variable</td></tr>
+            <tr><td class="col-name">target_tags</td><td class="col-type">text[]</td><td></td><td class="col-note">Filter contacts by tag. Null = all</td></tr>
+            <tr><td class="col-name">status</td><td class="col-type">text</td><td></td><td class="col-note">draft / scheduled / running / done / failed</td></tr>
+            <tr><td class="col-name">scheduled_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">When to start sending</td></tr>
+            <tr><td class="col-name">delay_seconds</td><td class="col-type">int</td><td></td><td class="col-note">Delay between each message. Default 8-15s random</td></tr>
+            <tr><td class="col-name">daily_limit</td><td class="col-type">int</td><td></td><td class="col-note">Max messages per day. Default 300</td></tr>
+            <tr><td class="col-name">sent_count</td><td class="col-type">int</td><td></td><td class="col-note">Auto incremented as engine sends</td></tr>
+            <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">now()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-chatbot" class="tab-content">
+      <div class="db-table">
+        <div class="db-table-header">🤖 chatbot_flows — If/else rules + sequences</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">type</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">keyword / sequence / default</td></tr>
+            <tr><td class="col-name">trigger_keyword</td><td class="col-type">text</td><td></td><td class="col-note">Word to match in incoming message</td></tr>
+            <tr><td class="col-name">match_type</td><td class="col-type">text</td><td></td><td class="col-note">contains / exact / starts_with</td></tr>
+            <tr><td class="col-name">reply</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">What bot replies with</td></tr>
+            <tr><td class="col-name">next_step</td><td class="col-type">jsonb</td><td></td><td class="col-note">For sequences: {options: {1: flowId, 2: flowId}}</td></tr>
+            <tr><td class="col-name">is_active</td><td class="col-type">boolean</td><td></td><td class="col-note">Toggle rules on/off</td></tr>
+            <tr><td class="col-name">priority</td><td class="col-type">int</td><td></td><td class="col-note">Lower = checked first. Default fallback = 999</td></tr>
+            <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">now()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-messages" class="tab-content">
+      <div class="db-table">
+        <div class="db-table-header">💬 messages_log — Every message in and out</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">contact_phone</td><td class="col-type">text</td><td><span class="badge badge-fk">FK</span></td><td class="col-note">Ref contacts.phone</td></tr>
+            <tr><td class="col-name">direction</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">inbound / outbound</td></tr>
+            <tr><td class="col-name">content</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Message text</td></tr>
+            <tr><td class="col-name">source</td><td class="col-type">text</td><td></td><td class="col-note">chatbot / campaign / manual</td></tr>
+            <tr><td class="col-name">campaign_id</td><td class="col-type">uuid</td><td><span class="badge badge-fk">FK</span></td><td class="col-note">Ref campaigns.id — null if chatbot/manual</td></tr>
+            <tr><td class="col-name">status</td><td class="col-type">text</td><td></td><td class="col-note">sent / delivered / read / failed</td></tr>
+            <tr><td class="col-name">sent_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">now()</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-sessions" class="tab-content">
+      <div class="db-table">
+        <div class="db-table-header">📱 wa_sessions — Baileys session persistence</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">session_id</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Unique key per client number</td></tr>
+            <tr><td class="col-name">creds</td><td class="col-type">jsonb</td><td><span class="badge badge-req">req</span></td><td class="col-note">Baileys auth creds JSON — saved after QR scan</td></tr>
+            <tr><td class="col-name">keys</td><td class="col-type">jsonb</td><td></td><td class="col-note">Baileys signal keys JSON</td></tr>
+            <tr><td class="col-name">wa_number</td><td class="col-type">text</td><td></td><td class="col-note">Connected WA number</td></tr>
+            <tr><td class="col-name">status</td><td class="col-type">text</td><td></td><td class="col-note">connected / disconnected / qr_pending</td></tr>
+            <tr><td class="col-name">last_seen</td><td class="col-type">timestamptz</td><td></td><td class="col-note">Last heartbeat from engine</td></tr>
+            <tr><td class="col-name">updated_at</td><td class="col-type">timestamptz</td><td></td><td class="col-note">Updated on every creds change</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-master" class="tab-content">
+      <div class="db-table">
+        <div class="db-table-header">👑 master_clients — YOUR admin DB (not client's Supabase)</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Key</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">id</td><td class="col-type">uuid</td><td><span class="badge badge-pk">PK</span></td><td class="col-note">gen_random_uuid()</td></tr>
+            <tr><td class="col-name">business_name</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Client's business name</td></tr>
+            <tr><td class="col-name">login_email</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Their Gmail — used for Supabase project + login</td></tr>
+            <tr><td class="col-name">supabase_url</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">https://xxxx.supabase.co</td></tr>
+            <tr><td class="col-name">supabase_anon_key</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Public anon key</td></tr>
+            <tr><td class="col-name">supabase_service_key</td><td class="col-type">text</td><td><span class="badge badge-req">req</span></td><td class="col-note">Service role key — kept server-side only</td></tr>
+            <tr><td class="col-name">domain</td><td class="col-type">text</td><td></td><td class="col-note">If client has custom domain connected</td></tr>
+            <tr><td class="col-name">setup_fee</td><td class="col-type">numeric</td><td></td><td class="col-note">One-time fee — set by Sahil per negotiation</td></tr>
+            <tr><td class="col-name">monthly_retainer</td><td class="col-type">numeric</td><td></td><td class="col-note">Monthly amount — set per client</td></tr>
+            <tr><td class="col-name">billing_day</td><td class="col-type">int</td><td></td><td class="col-note">Day of month to bill (e.g. 5)</td></tr>
+            <tr><td class="col-name">next_renewal</td><td class="col-type">date</td><td></td><td class="col-note">Next payment due date</td></tr>
+            <tr><td class="col-name">payment_status</td><td class="col-type">text</td><td></td><td class="col-note">paid / due / overdue</td></tr>
+            <tr><td class="col-name">notes</td><td class="col-type">text</td><td></td><td class="col-note">Negotiation notes, special terms</td></tr>
+            <tr><td class="col-name">is_active</td><td class="col-type">boolean</td><td></td><td class="col-note">Toggle to disable client access</td></tr>
+            <tr><td class="col-name">onboarded_at</td><td class="col-type">date</td><td></td><td class="col-note">When client was set up</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHATBOT -->
+<section id="chatbot">
+  <div class="section-label">// 05 — Chatbot logic</div>
+  <h2>How the Chatbot Works</h2>
+  <p class="section-desc">Every incoming WhatsApp message fires a <code style="color:var(--green);font-family:var(--mono)">messages.upsert</code> event in Baileys. The engine fetches the client's flow rules from their Supabase and replies accordingly.</p>
+
+  <div style="margin-bottom:2rem">
+    <div style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em">Message flow</div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">1</div>
+        <div class="flow-body">
+          <div class="flow-title">Message arrives on client's WA number</div>
+          <div class="flow-desc">Baileys socket fires event. Engine captures: sender phone, message text, clientId.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">2</div>
+        <div class="flow-body">
+          <div class="flow-title">Engine fetches chatbot_flows from client's Supabase</div>
+          <div class="flow-desc">Ordered by priority ASC. Checks each rule in order.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">3</div>
+        <div class="flow-body">
+          <div class="flow-title">Rule matching</div>
+          <div class="flow-desc">For each active rule: does message contain / equal / start with trigger_keyword? First match wins.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">4</div>
+        <div class="flow-body">
+          <div class="flow-title">Send reply via Baileys</div>
+          <div class="flow-desc">socket.sendMessage(senderPhone, { text: rule.reply }). Adds typing indicator simulation first.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">5</div>
+        <div class="flow-body">
+          <div class="flow-title">Log to messages_log</div>
+          <div class="flow-desc">Both inbound message and outbound reply saved to client's Supabase. Client sees it in Conversations tab live.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">✦</div>
+        <div class="flow-body">
+          <div class="flow-title">No match → default fallback rule</div>
+          <div class="flow-desc">priority 999 rule always exists. Client sets their fallback reply in flow builder.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em">Example rules (as client sees them in builder)</div>
+  <div class="chatbot-rule">
+    <span class="rule-if">IF contains</span>
+    <span class="rule-keyword">price</span>
+    <span class="rule-then">→ reply</span>
+    <span class="rule-reply">Our plans start at ₹999/month. DM for details!</span>
+  </div>
+  <div class="chatbot-rule">
+    <span class="rule-if">IF contains</span>
+    <span class="rule-keyword">demo</span>
+    <span class="rule-then">→ reply</span>
+    <span class="rule-reply">Book your free demo here: calendly.com/xyz</span>
+  </div>
+  <div class="chatbot-rule">
+    <span class="rule-if">IF contains</span>
+    <span class="rule-keyword">hi / hello / hey</span>
+    <span class="rule-then">→ reply</span>
+    <span class="rule-reply">Welcome to XYZ! Reply 1 for pricing, 2 for demo, 3 for support</span>
+  </div>
+  <div class="chatbot-rule" style="border-color:rgba(37,211,102,0.2)">
+    <span class="rule-if" style="color:var(--muted)">DEFAULT</span>
+    <span class="rule-keyword" style="color:var(--muted)">fallback</span>
+    <span class="rule-then">→ reply</span>
+    <span class="rule-reply">Thanks for reaching out! Our team will get back to you shortly.</span>
+  </div>
+
+  <div class="nudge" style="margin-top:1.5rem">
+    <span class="nudge-icon">⚠️</span>
+    <div><strong>Anti-ban rules baked into engine:</strong> Random delay 8–15s between outbound messages. Daily cap of 300 messages per number. Typing indicator before every reply. Sessions warmed up gradually on new numbers. Never send to opted_out contacts.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ADMIN -->
+<section id="admin">
+  <div class="section-label">// 06 — Your admin panel</div>
+  <h2>Super Admin Dashboard</h2>
+  <p class="section-desc">Only you see this. Accessed via /admin route, guarded by superadmin role in master Supabase. Full client CRM + payment tracker.</p>
+
+  <div class="admin-grid">
+    <div>
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em">Admin sidebar</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;padding:1rem 0">
+        <div class="sidebar-item active">👑 All Clients</div>
+        <div class="sidebar-item">💰 Payments & Renewals</div>
+        <div class="sidebar-item">📊 Session Health</div>
+        <div class="sidebar-item">📋 Onboarding Checklist</div>
+        <div class="sidebar-item">➕ Add New Client</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em">Add client form (billing is flexible)</div>
+      <div class="billing-form">
+        <div class="form-grid">
+          <div class="form-field"><label>Business Name</label><input type="text" placeholder="ABC Traders"/></div>
+          <div class="form-field"><label>Login Email (Gmail)</label><input type="text" placeholder="client@gmail.com"/></div>
+          <div class="form-field"><label>Supabase URL</label><input type="text" placeholder="https://xxx.supabase.co"/></div>
+          <div class="form-field"><label>Anon Key</label><input type="text" placeholder="eyJh..."/></div>
+          <div class="form-field"><label>Setup Fee (₹)</label><input type="number" placeholder="e.g. 20000"/></div>
+          <div class="form-field"><label>Monthly Retainer (₹)</label><input type="number" placeholder="e.g. 3000"/></div>
+          <div class="form-field"><label>Billing Day</label><input type="number" placeholder="5"/></div>
+          <div class="form-field"><label>Payment Status</label>
+            <select><option>paid</option><option>due</option><option>overdue</option></select>
+          </div>
+        </div>
+        <div class="form-field" style="margin-top:1rem"><label>Negotiation Notes</label><input type="text" placeholder="3 month deal, custom domain included..."/></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-label">// 07 — Full tech stack</div>
+  <h2>Every Tool Used</h2>
+  <p class="section-desc">Each piece has a specific job. No over-engineering.</p>
+
+  <div class="stack-row">
+    <div class="stack-pill"><span>▲</span><div><div>Next.js 14</div><div class="stack-pill-role">App Router · Dashboard UI · API proxy routes</div></div></div>
+    <div class="stack-pill"><span>🎨</span><div><div>Tailwind CSS</div><div class="stack-pill-role">Styling · Dark theme</div></div></div>
+    <div class="stack-pill"><span>🔐</span><div><div>Supabase Auth</div><div class="stack-pill-role">Login · Role (superadmin / client)</div></div></div>
+    <div class="stack-pill"><span>⚡</span><div><div>Supabase DB</div><div class="stack-pill-role">PostgreSQL · Realtime · RLS</div></div></div>
+    <div class="stack-pill"><span>🟢</span><div><div>@whiskeysockets/baileys</div><div class="stack-pill-role">WA Web protocol · QR · Sockets</div></div></div>
+    <div class="stack-pill"><span>🚀</span><div><div>Express.js</div><div class="stack-pill-role">REST API on engine server</div></div></div>
+    <div class="stack-pill"><span>🔌</span><div><div>Socket.io</div><div class="stack-pill-role">Live QR code streaming to dashboard</div></div></div>
+    <div class="stack-pill"><span>🐳</span><div><div>Docker</div><div class="stack-pill-role">Containerise engine for Fly.io</div></div></div>
+    <div class="stack-pill"><span>🟢</span><div><div>Fly.io</div><div class="stack-pill-role">Always-on free hosting for engine</div></div></div>
+    <div class="stack-pill"><span>▲</span><div><div>Vercel</div><div class="stack-pill-role">Next.js dashboard hosting</div></div></div>
+    <div class="stack-pill"><span>📦</span><div><div>Bull / simple queue</div><div class="stack-pill-role">Campaign message queue with delays</div></div></div>
+  </div>
+
+  <div class="nudge">
+    <span class="nudge-icon">📁</span>
+    <div><strong>Repo 1 — wa-dashboard</strong> (Vercel): Next.js app. All pages, auth, API routes that proxy to engine. <br/><strong>Repo 2 — wa-engine</strong> (Fly.io): Node.js + Express + Baileys. Handles all WA socket connections. Receives commands from dashboard via REST. Sends events back via webhook or Socket.io.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUILD ORDER -->
+<section id="build">
+  <div class="section-label">// 08 — Build order</div>
+  <h2>How to Build This</h2>
+  <p class="section-desc">Build in this exact order. Each step unlocks the next. Don't jump ahead.</p>
+
+  <div class="flow" style="margin-bottom:2.5rem">
+    <div class="flow-step">
+      <div class="flow-dot">1</div>
+      <div class="flow-body">
+        <div class="flow-title">SQL Template Script</div>
+        <div class="flow-desc">Write the full .sql file with all tables, RLS policies, and a default chatbot fallback rule. Run once per client. Test on a blank Supabase project.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">2</div>
+      <div class="flow-body">
+        <div class="flow-title">Master Supabase (yours)</div>
+        <div class="flow-desc">Create your own Supabase. Create master_clients table. Add yourself as superadmin user with role metadata.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">3</div>
+      <div class="flow-body">
+        <div class="flow-title">Engine — Baileys core (wa-engine)</div>
+        <div class="flow-desc">Node.js + Express. One endpoint: POST /connect/:clientId. Starts Baileys socket, streams QR via Socket.io, saves session to client Supabase on connect. Test locally first.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">4</div>
+      <div class="flow-body">
+        <div class="flow-title">Engine — Chatbot handler</div>
+        <div class="flow-desc">On messages.upsert: fetch flows from client Supabase, match rules, reply, log to messages_log.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">5</div>
+      <div class="flow-body">
+        <div class="flow-title">Engine — Campaign sender</div>
+        <div class="flow-desc">POST /campaign/send/:clientId. Fetch contacts by tag, queue messages with random delays, respect daily_limit, update sent_count.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">6</div>
+      <div class="flow-body">
+        <div class="flow-title">Deploy engine to Fly.io</div>
+        <div class="flow-desc">Write Dockerfile. fly launch. fly deploy. Set env vars. Test QR + chatbot on live URL.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">7</div>
+      <div class="flow-body">
+        <div class="flow-title">Next.js — Auth + routing (wa-dashboard)</div>
+        <div class="flow-desc">Supabase auth. Middleware to check role. /admin/* for superadmin, /dashboard/* for clients. Dynamic Supabase client init per session using stored keys.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">8</div>
+      <div class="flow-body">
+        <div class="flow-title">Next.js — Client pages</div>
+        <div class="flow-desc">Dashboard, Contacts, Campaigns, Chatbot builder, Conversations inbox, WA Connect (QR page), User Guide, Settings.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">9</div>
+      <div class="flow-body">
+        <div class="flow-title">Next.js — Admin pages</div>
+        <div class="flow-desc">Client list, Add client form (with billing fields), Payments view, Session health monitor.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-dot">✦</div>
+      <div class="flow-body">
+        <div class="flow-title">Deploy to Vercel. Onboard first client.</div>
+        <div class="flow-desc">Add client in admin → create their Supabase → run SQL script → give login → they scan QR → live in 30 mins.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em">Key commands</div>
+  <div class="cmd-block"><span class="cmd-prompt">$</span><span class="cmd-text">npm install @whiskeysockets/baileys express socket.io @supabase/supabase-js</span><span class="cmd-comment">engine deps</span></div>
+  <div class="cmd-block"><span class="cmd-prompt">$</span><span class="cmd-text">npx create-next-app@latest wa-dashboard --typescript --tailwind --app</span><span class="cmd-comment">dashboard</span></div>
+  <div class="cmd-block"><span class="cmd-prompt">$</span><span class="cmd-text">fly launch --name kaizen-wa-engine</span><span class="cmd-comment">deploy engine</span></div>
+  <div class="cmd-block"><span class="cmd-prompt">$</span><span class="cmd-text">fly deploy</span><span class="cmd-comment">redeploy engine after changes</span></div>
+  <div class="cmd-block"><span class="cmd-prompt">$</span><span class="cmd-text">vercel --prod</span><span class="cmd-comment">deploy dashboard</span></div>
+
+  <div class="nudge" style="margin-top:1.5rem">
+    <span class="nudge-icon">🎯</span>
+    <div><strong>To Claude reading this:</strong> Build each piece completely before moving to the next. Ask Sahil for confirmation after each step before proceeding. Sahil prefers complete copy-paste files, not partial snippets. He uses Next.js App Router (not pages). Tailwind for styling. Dark theme (black bg, green accent #25D366). Same sidebar pattern as the mailer screenshot above.</div>
+  </div>
+
+  <div class="nudge">
+    <span class="nudge-icon">💰</span>
+    <div><strong>Business context:</strong> Sahil charges ₹15k–25k setup + ₹2k–5k/month per client. Target: 5–7 Indian SMB clients (real estate, fashion, agencies, local businesses). Onboarding should take 30 mins not 3 days. This is his SaaS product under Kaizen ASC.</div>
+  </div>
+</section>
+
+<footer>
+  <div style="margin-bottom:0.5rem">Kaizen <span>WA 360</span> — Project Blueprint</div>
+  <div>Built by Sahil · Kaizen ASC · <span>kaizen-wa-360</span></div>
+</footer>
+
+<script>
+  function switchTab(e, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+</script>
+</body>
+</html>
